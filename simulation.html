@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-
 <title>String Theory — Interactive Simulation</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@100;200;300;400;700;900&display=swap');
@@ -1552,6 +1550,7 @@ canvas{touch-action:none;}
     opacity:0;
     pointer-events:none;
     transition:opacity .25s var(--ease), transform .25s var(--ease);
+    position:fixed;
   }
   #infopanel.mob-open{
     opacity:1;
@@ -1890,6 +1889,7 @@ canvas{touch-action:none;}
   <div id="hud">
     <div id="selector"></div>
     <div id="infopanel">
+      <div id="infopanel-close" style="position:absolute;top:8px;left:8px;font-size:13px;cursor:pointer;color:rgba(255,110,26,.7);font-family:monospace;line-height:1;padding:2px 5px;z-index:300;">✕</div>
       <div class="head">SELECTED PARTICLE</div>
       <div>NAME: <span class="val" id="pname">—</span></div>
       <div>SYMBOL: <span class="val" id="psym">—</span></div>
@@ -2342,8 +2342,31 @@ document.querySelectorAll('.tab').forEach(tab=>{
 
     const panelEl=document.getElementById(def.panel);
     btn.addEventListener('click',()=>{
-      const open=panelEl.classList.toggle('mob-open');
-      btn.classList.toggle('active',open);
+      panelEl.classList.add('mob-open');
+      btn.style.opacity='0';
+      btn.style.pointerEvents='none';
+      // inject close btn if not already there
+      if(!panelEl.querySelector('.auto-close-btn')){
+        const x=document.createElement('div');
+        x.className='auto-close-btn';
+        x.textContent='✕';
+        const isLeft=panelEl.classList.contains('left');
+        x.style.cssText='position:absolute;top:8px;'+(isLeft?'right:8px;left:auto;':'left:8px;')+' font-size:13px;cursor:pointer;color:rgba(255,110,26,.7);font-family:monospace;line-height:1;padding:2px 5px;z-index:300;';
+        x.addEventListener('click',e=>{
+          e.stopPropagation();
+          panelEl.classList.remove('mob-open');
+          btn.style.opacity='1';
+          btn.style.pointerEvents='all';
+        });
+        panelEl.appendChild(x);
+      } else {
+        panelEl.querySelector('.auto-close-btn').onclick=e=>{
+          e.stopPropagation();
+          panelEl.classList.remove('mob-open');
+          btn.style.opacity='1';
+          btn.style.pointerEvents='all';
+        };
+      }
     });
     panelPairs.push({togEl:btn, panel:def.panel, mode:def.mode});
   });
@@ -2351,11 +2374,20 @@ document.querySelectorAll('.tab').forEach(tab=>{
   // Particles info toggle
   const infoTog=document.getElementById('infopanel-toggle');
   const infoPanel=document.getElementById('infopanel');
+  const infoClose=document.getElementById('infopanel-close');
+  function openInfoPanel(){
+    infoPanel.classList.add('mob-open');
+    infoTog.style.opacity='0';
+    infoTog.style.pointerEvents='none';
+  }
+  function closeInfoPanel(){
+    infoPanel.classList.remove('mob-open');
+    infoTog.style.opacity='1';
+    infoTog.style.pointerEvents='all';
+  }
   if(infoTog&&infoPanel){
-    infoTog.addEventListener('click',()=>{
-      const open=infoPanel.classList.toggle('mob-open');
-      infoTog.classList.toggle('active',open);
-    });
+    infoTog.addEventListener('click', openInfoPanel);
+    if(infoClose) infoClose.addEventListener('click', e=>{e.stopPropagation(); closeInfoPanel();});
   }
 
   function updateMobToggleVisibility(activeMode){
@@ -2389,12 +2421,20 @@ document.querySelectorAll('.tab').forEach(tab=>{
       }
     });
 
-    // Close all panels on mode switch
+    // Close all panels on mode switch + restore all toggle buttons
     document.querySelectorAll('.side-panel,.side-panel-toggle').forEach(el=>{
       el.classList.remove('mob-open','active');
     });
+    document.querySelectorAll('.mob-side-toggle').forEach(btn=>{
+      btn.style.opacity='1';
+      btn.style.pointerEvents='all';
+    });
     if(infoPanel) infoPanel.classList.remove('mob-open');
-    if(infoTog) infoTog.classList.remove('active');
+    if(infoTog){
+      infoTog.classList.remove('active');
+      infoTog.style.opacity='1';
+      infoTog.style.pointerEvents='all';
+    }
   }
 
   // ── Swipe left/right to switch modes ──
@@ -2409,7 +2449,8 @@ document.querySelectorAll('.tab').forEach(tab=>{
     if(!isMob()||swipeX===null)return;
     const dx=e.changedTouches[0].clientX-swipeX;
     const dy=e.changedTouches[0].clientY-swipeY;
-    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5){
+    const startedInPanel=swipeX>window.innerWidth-220;
+    if(!startedInPanel&&Math.abs(dx)>100&&Math.abs(dx)>Math.abs(dy)*2.5){
       const cur=document.querySelector('.tab.active')?.dataset.mode;
       const idx=modeKeys.indexOf(cur);
       if(dx<0&&idx<modeKeys.length-1) switchMode(modeKeys[idx+1]);
