@@ -2224,10 +2224,10 @@ function updateZoomLabel(){
 }
 
 // ── SPEED BUTTONS ──
-document.getElementById('sbtn-up').addEventListener('click',()=>{globalSpeed=Math.min(3,globalSpeed+0.5);updateSpdLabel();});
+document.getElementById('sbtn-up').addEventListener('click',()=>{globalSpeed=Math.min(5,globalSpeed+0.5);updateSpdLabel();});
 document.getElementById('sbtn-dn').addEventListener('click',()=>{globalSpeed=Math.max(0.25,globalSpeed-0.5);updateSpdLabel();});
 // Mobile speed buttons
-document.getElementById('sbtn-up-mob').addEventListener('click',()=>{globalSpeed=Math.min(3,globalSpeed+0.5);updateSpdLabel();});
+document.getElementById('sbtn-up-mob').addEventListener('click',()=>{globalSpeed=Math.min(5,globalSpeed+0.5);updateSpdLabel();});
 document.getElementById('sbtn-dn-mob').addEventListener('click',()=>{globalSpeed=Math.max(0.25,globalSpeed-0.5);updateSpdLabel();});
 function updateSpdLabel(){
   const s=globalSpeed;
@@ -2483,10 +2483,10 @@ const PARTICLES=[
   {name:'GRAVITON',sym:'G',color:'#ffffff',spin:'2',mass:'0 (massless)',type:'Closed string — gravity carrier',closed:true,boson:true,ampY:0.55,ampZ:0.55,freqMult:1.0,lobesMod:2,vibration:'Ground state, spin-2 polarisation',polarisation:'Quadrupole (2 transverse axes)',note:'The ONLY particle from a closed string ground state. Gravity leaks into extra dimensions because closed strings can leave D-branes.',desc:'CLOSED STRING · GROUND STATE · SPIN-2'},
   {name:'DILATON',sym:'Φ',color:'#ffddcc',spin:'0',mass:'0 (massless)',type:'Closed string — scalar',closed:true,boson:true,ampY:0.4,ampZ:0.0,freqMult:1.2,lobesMod:0,vibration:'Ground state, monopole (breathing) mode',polarisation:'Isotropic — uniform radial pulsing',note:'Sibling of the graviton. Spin-0 scalar — vibrates as a uniform breathing mode (monopole), not a quadrupole. Sets the string coupling constant g_s = e^Φ. No confirmed experimental detection.',desc:'CLOSED STRING · GROUND STATE · SPIN-0'},
   {name:'PHOTON',sym:'γ',color:'#ffcc00',spin:'1',mass:'0 (massless)',type:'Open string — EM force carrier',closed:false,boson:true,ampY:0.7,ampZ:0.0,freqMult:1.3,lobesMod:1,vibration:'Ground state, vector polarisation',polarisation:'Transverse (1 axis)',note:'Open string with endpoints on D-branes. The photon is the gauge boson of electromagnetism — U(1) symmetry.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · U(1)'},
-  {name:'GLUON',sym:'g',color:'#ff6a1a',spin:'1',mass:'0 (massless)',type:'Open string — strong force carrier',closed:false,boson:true,ampY:0.7,ampZ:0.25,freqMult:1.5,lobesMod:1,vibration:'Ground state, vector (color octet)',polarisation:'Transverse + color charge',note:'Open string with endpoints on coincident D-branes. 8 gluons from SU(3) gauge symmetry.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(3)'},
-  {name:'W/Z BOSON',sym:'W±Z',color:'#ff4500',spin:'1',mass:'80–91 GeV',type:'Open string — weak force carrier',closed:false,boson:true,ampY:0.65,ampZ:0.2,freqMult:1.1,lobesMod:1,vibration:'Ground state, vector · massive (Higgs mech.)',polarisation:'Transverse + longitudinal (massive)',note:'Open string, ground state. Acquires mass via the Higgs mechanism — not from a higher harmonic.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(2)'},
-  {name:'QUARK',sym:'q',color:'#ff2200',spin:'½',mass:'2 MeV – 173 GeV',type:'Open string — fermion (superstring)',closed:false,boson:false,ampY:0.6,ampZ:0.45,freqMult:1.6,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor (½-integer spin)',note:'Requires SUPERSTRING theory. Fermions come from the fermionic oscillator ground state — same energy level as bosons.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-½'},
-  {name:'ELECTRON',sym:'e⁻',color:'#ff8c42',spin:'½',mass:'0.511 MeV',type:'Open string — lepton (superstring)',closed:false,boson:false,ampY:0.55,ampZ:0.55,freqMult:1.8,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor — no color charge',note:'Like quarks, electrons are fermionic ground states of superstrings. They live on D-branes but carry no color charge.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-½'},
+  {name:'GLUON',sym:'g',color:'#ff6a1a',spin:'1',mass:'0 (massless)',type:'Open string — strong force carrier',closed:false,boson:true,ampY:0.7,ampZ:0.0,freqMult:1.5,lobesMod:1,vibration:'Ground state, vector (color octet)',polarisation:'Transverse (1 axis, color charge)',note:'Open string with endpoints on coincident D-branes. 8 gluons from SU(3) gauge symmetry.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(3)'},
+  {name:'W/Z BOSON',sym:'W\u00b1Z',color:'#ff4500',spin:'1',mass:'80\u201391 GeV',type:'Open string — weak force carrier',closed:false,boson:true,ampY:0.65,ampZ:0.0,freqMult:1.1,lobesMod:1,vibration:'Ground state, vector \u00b7 massive (Higgs mech.)',polarisation:'Transverse (massive: +longitudinal mode)',note:'Open string, ground state. Acquires mass via the Higgs mechanism \u2014 not from a higher harmonic.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(2)'},
+  {name:'QUARK',sym:'q',color:'#ff2200',spin:'\u00bd',mass:'2 MeV \u2013 173 GeV',type:'Open string — fermion (superstring)',closed:false,boson:false,ampY:0.6,ampZ:0.0,freqMult:1.6,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor (\u00bd-integer spin)',note:'Requires SUPERSTRING theory. Fermions come from the fermionic oscillator ground state \u2014 same energy level as bosons.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
+  {name:'ELECTRON',sym:'e\u207b',color:'#ff8c42',spin:'\u00bd',mass:'0.511 MeV',type:'Open string — lepton (superstring)',closed:false,boson:false,ampY:0.55,ampZ:0.0,freqMult:1.8,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor \u2014 no color charge',note:'Like quarks, electrons are fermionic ground states of superstrings. They live on D-branes but carry no color charge.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
   {name:'HIGGS BOSON',sym:'H',color:'#ffaa44',spin:'0',mass:'125.1 GeV',type:'Open string — scalar (moduli)',closed:false,boson:true,ampY:0.85,ampZ:0.0,freqMult:0.7,lobesMod:1,vibration:'Lowest scalar mode',polarisation:'Scalar (no spin)',note:'The Higgs is conjectured to arise from a scalar moduli or brane-position field in string compactifications — not from excited harmonics. Note: bosonic string theory has a tachyon (n=−1, M²<0) which is a separate instability, unrelated to the Higgs.',desc:'OPEN STRING · SCALAR STATE · SPIN-0'},
 ];
 
@@ -2539,13 +2539,13 @@ function updateString1(dt){
     // lobes===0 means monopole (dilaton breathing mode): uniform radial pulsing
     for(let i=0;i<=SEG;i++){const u=i/SEG,theta=u*Math.PI*2;
       let r,x,y,z;
-      if(lobes===0){r=L*(1+AY*0.3*Math.cos(stringTime));x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=AZ*Math.sin(stringTime*1.05);}
-      else{const dR=AY*Math.sin(lobes*theta+stringTime),dZ=AZ*Math.sin(lobes*theta-stringTime*1.05);r=L*(1+dR*0.3);x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=dZ;}
+      if(lobes===0){r=L*(1+AY*0.3*Math.cos(stringTime));x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=0;}
+      else{const dR=AY*Math.cos(lobes*theta)*Math.cos(stringTime),dZ=AZ*Math.sin(lobes*theta)*Math.cos(stringTime+1.5708);r=L*(1+dR*0.3);x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=dZ;}
       for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}}}
   else{
     // Standing wave: n antinodes (lobesMod), planar in Y; Z is independent second polarisation plane
     const n=lobes||1;
-    for(let i=0;i<=SEG;i++){const u=i/SEG,x=(u-.5)*(L*2),env=Math.sin(n*Math.PI*u),y=AY*env*Math.cos(stringTime),z=AZ*Math.sin(n*Math.PI*u)*Math.sin(stringTime);for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}}
+    for(let i=0;i<=SEG;i++){const u=i/SEG,x=(u-.5)*(L*2),env=Math.sin(n*Math.PI*u),y=AY*env*Math.cos(stringTime),z=AZ*env*Math.cos(stringTime+1.9);for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}}
     activeObjects.forEach(o=>{if(o.userData.endSphere!==undefined)o.position.set(o.userData.endSphere*L,0,0);});}
   lines.forEach(l=>l.geometry.attributes.position.needsUpdate=true);
 }
@@ -2575,26 +2575,136 @@ setIMode('split');
 document.querySelectorAll('.ibtn').forEach(b=>b.addEventListener('click',()=>setIMode(b.dataset.ia)));
 function updateI(dt){
   iTime+=dt*0.55*globalSpeed;clearI();
-  const t=(Math.sin(iTime*0.8)*0.5+0.5),col=0xff6a1a;
+  const period=7.0,phase=(iTime%period)/period;
+  const t=phase<0.85?(1-Math.cos(Math.PI*(phase/0.85)))*0.5:1-(phase-0.85)/0.15;
+  const col=0xff6a1a;
   function fillLine(line,pts){const arr=line.geometry.attributes.position.array;pts.forEach(([x,y,z],i)=>{arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;});line.geometry.attributes.position.needsUpdate=true;}
   function mkPts(fn){const pts=[];for(let i=0;i<=ISEG;i++){const u=i/ISEG;pts.push(fn(u));}return pts;}
+
   if(iMode==='split'){
-    const sx=-1.5+t*3.0;
-    const main=makeILine(col,.9),glow=makeILine(col,.08);
-    const mpts=mkPts(u=>{const x=-4+u*(sx+4);const env=Math.sin(Math.PI*Math.min(u/(0.01+(sx+4)/8),1));return[x,0.45*env*Math.cos(iTime*3),0.15*env*Math.sin(iTime*3+.7)];});
+    const sx=-3.8+t*7.6; // split point: -3.8 → +3.8
+    const spread=1.1*t;   // fan-out grows with time
+
+    // Incoming string: x from -4 to sx (the split point), normal standing-wave envelope
+    const main=makeILine(col,.9),glow=makeILine(col,.15);
+    const mpts=mkPts(u=>{
+      const x=-4+u*(sx+4);
+      const env=Math.sin(Math.PI*u);        // envelope peaks at midpoint of incoming segment
+      const y=0.45*env*Math.cos(iTime*3);
+      return[x,y,0];
+    });
     fillLine(main,mpts);fillLine(glow,mpts);
-    const spread=0.9*Math.min((sx+4)/8,1);
-    [-1,1].forEach((side,si)=>{const cl=makeILine(col,.75),cg=makeILine(col,.08);const cpts=mkPts(u=>{const x=sx+u*(4-sx);const by=side*spread*u;const env=Math.sin(Math.PI*Math.min(u,1));return[x,by+0.38*env*Math.cos(iTime*3.2+si*1.1),0.12*env*Math.sin(iTime*3+.5+si)];});fillLine(cl,cpts);fillLine(cg,cpts);const sg=new THREE.SphereGeometry(.08,10,10);const sm=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.6});const sp=new THREE.Mesh(sg,sm);sp.position.set(4,side*spread,0);scene2.add(sp);iObjects.push(sp);});
-    const sg=new THREE.SphereGeometry(.12,12,12);const fl=Math.abs(Math.sin(iTime*4))*.7+.3;const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:fl});const sps=new THREE.Mesh(sg,spm);sps.position.set(sx,0,0);scene2.add(sps);iObjects.push(sps);
+
+    // Daughter strings: only draw when spread is meaningful
+    if(spread>0.05){
+      [-1,1].forEach((side,si)=>{
+        const cl=makeILine(col,.8),cg=makeILine(col,.12);
+        const cpts=mkPts(u=>{
+          const x=sx+u*(4-sx);
+          const by=side*spread*Math.sin(Math.PI*0.5*u); // fan from 0 at sx to full spread at x=4
+          const env=Math.sin(Math.PI*u);
+          const y=by+0.35*env*Math.cos(iTime*3.2+si*1.1);
+          return[x,y,0];
+        });
+        fillLine(cl,cpts);fillLine(cg,cpts);
+        // endpoint dots at x=4
+        const sg=new THREE.SphereGeometry(.08,10,10);
+        const sm=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.65});
+        const sp=new THREE.Mesh(sg,sm);sp.position.set(4,side*spread,0);
+        scene2.add(sp);iObjects.push(sp);
+      });
+    }
+    // Pinch-point glow at split location
+    if(sx>-3.8&&sx<3.8){
+      const fl=0.45+0.45*Math.abs(Math.sin(iTime*5));
+      const sg=new THREE.SphereGeometry(.13,12,12);
+      const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:fl});
+      const sps=new THREE.Mesh(sg,spm);sps.position.set(Math.min(sx,3.8),0,0);
+      scene2.add(sps);iObjects.push(sps);
+    }
+
   } else if(iMode==='merge'){
-    const mx=-4+t*5.5;const spread=0.9*Math.max(0,1-(mx+4)/5.5);
-    [-1,1].forEach((side,si)=>{const il=makeILine(col,.82),ig=makeILine(col,.08);const ipts=mkPts(u=>{const x=-4+u*(mx+4);const by=side*spread*(1-u);const env=Math.sin(Math.PI*Math.min(u,1));return[x,by+0.38*env*Math.cos(iTime*3.1+si*.9),0.12*env*Math.sin(iTime*3+.4+si)];});fillLine(il,ipts);fillLine(ig,ipts);const sg=new THREE.SphereGeometry(.08,10,10);const sm=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.6});const sp=new THREE.Mesh(sg,sm);sp.position.set(-4,side*spread,0);scene2.add(sp);iObjects.push(sp);});
-    if(mx<3.5){const ol=makeILine(col,.9),og=makeILine(col,.08);const opts=mkPts(u=>{const x=mx+u*(3.5-mx);const env=Math.sin(Math.PI*u);return[x,0.55*env*Math.cos(iTime*2.9),0.18*env*Math.sin(iTime*2.9+.8)];});fillLine(ol,opts);fillLine(og,opts);const sg2=new THREE.SphereGeometry(.12,12,12);const fl2=Math.abs(Math.sin(iTime*4))*.7+.3;const spm2=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:fl2});const sp2=new THREE.Mesh(sg2,spm2);sp2.position.set(mx,0,0);scene2.add(sp2);iObjects.push(sp2);}
+    const mx=-3.8+t*7.6; // merge point: -3.8 → +3.8
+    const spread=1.1*(1-t); // spread closes uniformly
+
+    // Two incoming strings converging toward merge point
+    [-1,1].forEach((side,si)=>{
+      const il=makeILine(col,.82),ig=makeILine(col,.12);
+      const ipts=mkPts(u=>{
+        const x=-4+u*(mx+4);
+        const by=side*spread*(1-u); // converge to y=0 at u=1 (merge point)
+        const env=Math.sin(Math.PI*u);
+        const y=by+0.38*env*Math.cos(iTime*3.1+si*.9);
+        return[x,y,0];
+      });
+      fillLine(il,ipts);fillLine(ig,ipts);
+      // source dots at x=-4
+      const sg=new THREE.SphereGeometry(.08,10,10);
+      const sm=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.65});
+      const sp=new THREE.Mesh(sg,sm);sp.position.set(-4,side*spread,0);
+      scene2.add(sp);iObjects.push(sp);
+    });
+
+    // Merged output: fades in as spread closes, extends from merge point to right edge
+    const outAlpha=Math.max(0,Math.min(1,(0.5-spread/1.1)*2)); // 0→1 as spread: 0.5→0
+    if(outAlpha>0.02&&mx<3.9){
+      const ol=makeILine(col,.9*outAlpha),og=makeILine(col,.12*outAlpha);
+      const opts=mkPts(u=>{
+        const x=mx+u*(4-mx);
+        const env=Math.sin(Math.PI*u);
+        const y=0.55*env*Math.cos(iTime*2.9);
+        return[x,y,0];
+      });
+      fillLine(ol,opts);fillLine(og,opts);
+    }
+    // Merge-point glow
+    if(mx>-3.8&&mx<3.8){
+      const fl=0.45+0.45*Math.abs(Math.sin(iTime*5));
+      const sg=new THREE.SphereGeometry(.13,12,12);
+      const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:fl});
+      const sp=new THREE.Mesh(sg,spm);sp.position.set(Math.max(mx,-3.8),0,0);
+      scene2.add(sp);iObjects.push(sp);
+    }
+
   } else {
-    const interact=Math.exp(-Math.pow((iTime*0.7%(Math.PI*2))-Math.PI,2)*0.4);
-    [0,1].forEach(si=>{const sign=si===0?1:-1;const ml=makeILine(col,.82),mg=makeILine(col,.08);const mpts=mkPts(u=>{const x=-4+u*8;const yBase=sign*(2.0-u*4.0);const sq=interact*1.5*(1-2*u);const env=Math.sin(Math.PI*u);return[x,yBase-sign*sq+0.35*env*Math.cos(iTime*3+si*1.3),0.12*env*Math.sin(iTime*3.2+si*.7)];});fillLine(ml,mpts);fillLine(mg,mpts);});
-    if(interact>0.3){const br=makeILine(0xffffff,interact*.5);const bpts=mkPts(u=>[u-0.5,interact*(1-2*u)*0.8,0]);fillLine(br,bpts);}
-    const sg=new THREE.SphereGeometry(.15*interact,12,12);const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:interact*.8});const sp=new THREE.Mesh(sg,spm);scene2.add(sp);iObjects.push(sp);
+    // EXCHANGE (t-channel): two parallel strings momentarily pinch together at centre,
+    // share a merged region, then separate. NO crossing — smooth tube topology.
+    const period2=5.0,ph2=(iTime%period2)/period2;
+    // bell pulse: 0 at start, peaks at ph2=0.5, back to 0
+    const interact=Math.max(0,Math.sin(Math.PI*ph2));
+    const gap=1.3;
+
+    [0,1].forEach(si=>{
+      const sign=si===0?1:-1;
+      const ml=makeILine(col,.85),mg=makeILine(col,.12);
+      const mpts=mkPts(u=>{
+        const x=-4+u*8;
+        // Gaussian pinch toward y=0 in the central interaction zone
+        const pinch=interact*gap*0.92*Math.exp(-Math.pow((u-0.5)*3.5,2));
+        const yBase=sign*Math.max(0.0, gap-pinch);
+        const env=Math.sin(Math.PI*u);
+        const y=yBase+0.3*env*Math.cos(iTime*3+si*1.2);
+        return[x,y,0];
+      });
+      fillLine(ml,mpts);fillLine(mg,mpts);
+    });
+
+    // Merged zone glow: single bright line in the region where strings touch, no separate geometry
+    if(interact>0.25){
+      const zoneW=3.5*interact;
+      const jl=makeILine(0xffffff, Math.min(interact*0.55,0.5));
+      const jpts=mkPts(u=>{
+        const x=(u-0.5)*zoneW*2;
+        const y=0.0; // at y=0, exactly where both strings converge
+        return[x,y,0];
+      });
+      fillLine(jl,jpts);
+      // Small glow sphere at centre of merged zone
+      const sg=new THREE.SphereGeometry(.10*interact,10,10);
+      const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:interact*0.6});
+      const sp=new THREE.Mesh(sg,spm);
+      scene2.add(sp);iObjects.push(sp);
+    }
   }
 }
 
@@ -2641,6 +2751,9 @@ function buildWorldsheet(){
     [-1.4,1.4].forEach((xOff,si)=>{for(let it=0;it<=14;it++){const tau=it/14;const y=-(tau*2.5);const R=0.6+0.1*tau;const row=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const dr=0.15*Math.sin(sigma*2+wTime*2.5+tau+si*1.5);row.push(new THREE.Vector3(xOff+Math.cos(sigma)*R*(1+dr),y,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(row);const mat=new THREE.LineBasicMaterial({color:0xff6a1a,transparent:true,opacity:it%3===0?0.45:0.12});const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}});
     [[0,2.5,.9],[1.4,-2.5,.65],[-1.4,-2.5,.65]].forEach(([xo,yo,R])=>{const pts=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const dr=0.2*Math.sin(sigma*2+wTime*2.2);pts.push(new THREE.Vector3(xo+Math.cos(sigma)*R*(1+dr),yo,Math.sin(sigma)*R*(1+dr)));}const cgeo=new THREE.BufferGeometry().setFromPoints(pts);const jmat=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.8});const jl=new THREE.Line(cgeo,jmat);pivot3.add(jl);wObjects3.push(jl);});
     const sg=new THREE.SphereGeometry(.18,12,12);const sm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.5+0.3*Math.sin(wTime*4)});const sp=new THREE.Mesh(sg,sm);sp.position.set(0,2.5,0);pivot3.add(sp);wObjects3.push(sp);
+    // Axis labels for pair-of-pants
+    const tauLbl=makeTextLabel('τ (proper time)','↑ worldsheet time');tauLbl.position.set(1.6,0,0);pivot3.add(tauLbl);wObjects3.push(tauLbl);
+    const sigLbl=makeTextLabel('σ (string coord)','→ periodic 0…2π');sigLbl.position.set(0,-3.2,0);pivot3.add(sigLbl);wObjects3.push(sigLbl);
   }
 }
 
@@ -2659,7 +2772,7 @@ document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>set
 function resizeF(){
   const isMob=innerWidth<=768;
   const tabH=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--tab-h'))||58;
-  const mobBar=isMob?62:0;
+  const mobBar=isMob?(()=>{const cs=getComputedStyle(document.documentElement);const bz=parseInt(cs.getPropertyValue('--btn-zone'))||52;const cz=parseInt(cs.getPropertyValue('--ctrl-zone'))||46;const g=parseInt(cs.getPropertyValue('--gap'))||6;return bz+cz+g*2;})():0;
   if(isMob){
     // vertical stack: each panel is half the available height
     const W=innerWidth;
@@ -2738,29 +2851,29 @@ const EDATA={
   open:{
     title:'OPEN STRING SPECTRUM',
     levels:[
-      {n:0,label:'n=0 GROUND STATE',mass:'0 (massless)',particles:['γ photon','g gluon','W/Z boson','H Higgs'],color:'#ff4500',note:'All known SM bosons live here'},
-      {n:1,label:'n=1 FIRST EXCITATION',mass:'M_s ≈ M_Planck',particles:['STRING EXCITATION #1'],color:'#ffcc00',note:'~10¹⁹ GeV — unobservable at LHC'},
-      {n:2,label:'n=2 SECOND EXCITATION',mass:'√2 · M_s',particles:['STRING EXCITATION #2'],color:'#ff4500',note:'Higher spin tower'},
-      {n:3,label:'n=3 THIRD EXCITATION',mass:'√3 · M_s',particles:['STRING EXCITATION #3'],color:'#ff6a1a',note:'Regge trajectory'},
-      {n:4,label:'n=4 FOURTH EXCITATION',mass:'2 · M_s',particles:['STRING EXCITATION #4'],color:'#ff2200',note:'Never observed — Planck scale'},
+      {n:0,label:'n=0  GROUND STATE',mass:'0  (massless)',particles:['\u03b3 photon','g gluon','W/Z boson','H Higgs'],color:'#ff4500',note:'All known SM bosons live here \u2014 zero-point state, no classical antinodes'},
+      {n:1,label:'n=1  FIRST EXCITATION',mass:'M\u209b  (string scale)',particles:['STRING EXCITATION #1'],color:'#ffcc00',note:'M\u00b2 = 1/\u03b1\u2032  \u2192  M = M\u209b.  Far above LHC reach (~10\u00b9\u2076\u201310\u00b9\u2079 GeV depending on compactification)'},
+      {n:2,label:'n=2  SECOND EXCITATION',mass:'\u221a2 \u00b7 M\u209b',particles:['STRING EXCITATION #2'],color:'#ff4500',note:'Higher spin tower: spin up to J = n+1'},
+      {n:3,label:'n=3  THIRD EXCITATION',mass:'\u221a3 \u00b7 M\u209b',particles:['STRING EXCITATION #3'],color:'#ff6a1a',note:'Regge trajectory: J\u2098\u2090\u02e3 = \u03b1\u2032 \u00b7 M\u00b2 + 1'},
+      {n:4,label:'n=4  FOURTH EXCITATION',mass:'2 \u00b7 M\u209b',particles:['STRING EXCITATION #4'],color:'#ff2200',note:'Never observed \u2014 Planck scale'},
     ]
   },
   closed:{
     title:'CLOSED STRING SPECTRUM',
     levels:[
-      {n:0,label:'n=0 GROUND STATE',mass:'0 (massless)',particles:['G graviton','Φ dilaton','B₂ antisymmetric tensor'],color:'#ffffff',note:'Gravity sector — closed string ground state'},
-      {n:1,label:'n=1 FIRST EXCITATION',mass:'2 · M_s',particles:['MASSIVE GRAVITON MODE'],color:'#ffcc00',note:'Far too heavy to produce. Closed string mass formula: M²=4n/α\', so M=2·M_s at n=1.'},
-      {n:2,label:'n=2 SECOND EXCITATION',mass:'2√2 · M_s',particles:['SPIN-4 EXCITATION'],color:'#ff4500',note:'Higher spin tower of gravity'},
-      {n:3,label:'n=3 THIRD EXCITATION',mass:'2√3 · M_s',particles:['SPIN-6 EXCITATION'],color:'#ff6a1a',note:'Regge trajectory for gravitons'},
+      {n:0,label:'n=0  GROUND STATE',mass:'0  (massless)',particles:['G graviton','\u03a6 dilaton','B\u2082 tensor'],color:'#ffffff',note:'Gravity sector \u2014 closed string ground state, zero-point oscillation'},
+      {n:1,label:'n=1  FIRST EXCITATION',mass:'2 \u00b7 M\u209b',particles:['MASSIVE GRAVITON MODE'],color:'#ffcc00',note:'M\u00b2 = 4n/\u03b1\u2032  \u2192  M = 2M\u209b at n=1.  Closed string mass formula has extra factor of 4.'},
+      {n:2,label:'n=2  SECOND EXCITATION',mass:'2\u221a2 \u00b7 M\u209b',particles:['SPIN-4 EXCITATION'],color:'#ff4500',note:'Higher spin tower of gravity'},
+      {n:3,label:'n=3  THIRD EXCITATION',mass:'2\u221a3 \u00b7 M\u209b',particles:['SPIN-6 EXCITATION'],color:'#ff6a1a',note:'Regge trajectory: J\u2098\u2090\u02e3 = \u03b1\u2032 \u00b7 M\u00b2/4 + 2'},
     ]
   },
   super:{
-    title:'SUPERSTRING SPECTRUM (TYPE IIA/IIB)',
+    title:'SUPERSTRING SPECTRUM  (TYPE IIA/IIB)',
     levels:[
-      {n:0,label:'n=0 GROUND STATE (BOSONIC SECTOR)',mass:'0 (massless)',particles:['γ photon','G graviton','fermion gauginos'],color:'#ff4500',note:'All SM particles + graviton in ground state'},
-      {n:'0F',label:'n=0 GROUND STATE (FERMIONIC SECTOR)',mass:'0 (massless)',particles:['e⁻ electron','q quarks','ν neutrinos'],color:'#ff8c42',note:'Fermions from fermionic oscillators — same mass level as bosons, different sector'},
-      {n:1,label:'n=1 EXCITED STATE',mass:'M_Planck',particles:['SUSY PARTNERS (heavy)'],color:'#ff4500',note:'Superpartners may be at this scale'},
-      {n:2,label:'n=2 EXCITED STATE',mass:'√2 · M_s',particles:['STRING EXCITATIONS'],color:'#ff2200',note:'Massive higher-spin states'},
+      {n:0,label:'n=0  BOSONIC SECTOR',mass:'0  (massless)',particles:['\u03b3 photon','G graviton','g gluon','B\u2082 form'],color:'#ff4500',note:'Gauge bosons + graviton from bosonic oscillator ground state \u2014 spin-1 and spin-2'},
+      {n:'0F',label:'n=0  FERMIONIC SECTOR',mass:'0  (massless)',particles:['e\u207b electron','q quarks','\u03bd neutrinos'],color:'#ff8c42',note:'Fermions from fermionic oscillators \u2014 same mass as bosonic ground state, different GSO sector'},
+      {n:1,label:'n=1  EXCITED STATE',mass:'M\u209b  (string scale)',particles:['MASSIVE STRING MODE'],color:'#ff4500',note:'First excited level \u2014 massive higher-spin states.  Superpartners come from zero-mode SUSY, not string excitations.'},
+      {n:2,label:'n=2  EXCITED STATE',mass:'\u221a2 \u00b7 M\u209b',particles:['STRING EXCITATIONS'],color:'#ff2200',note:'Massive higher-spin states, unobservable at current energies'},
     ]
   }
 };
@@ -2784,7 +2897,7 @@ function drawEnergy(){
   ectx.fillText(data.title,cx,pad*0.5);
 
   // Y axis label
-  ectx.save();ectx.translate(28,H/2);ectx.rotate(-Math.PI/2);ectx.font='8px Share Tech Mono';ectx.fillStyle='rgba(255,200,160,0.85)';ectx.textAlign='center';ectx.fillText('MASS² (in string units α\')',0,0);ectx.restore();
+  ectx.save();ectx.translate(28,H/2);ectx.rotate(-Math.PI/2);ectx.font='8px Share Tech Mono';ectx.fillStyle='rgba(255,200,160,0.85)';ectx.textAlign='center';ectx.fillText('M\u00b2  (string units \u03b1\u2032)',0,0);ectx.restore();
 
   // Axis line
   ectx.strokeStyle='rgba(255,120,60,0.35)';ectx.lineWidth=1;ectx.beginPath();ectx.moveTo(60,pad);ectx.lineTo(60,H-pad);ectx.stroke();
@@ -2833,29 +2946,42 @@ function drawEnergy(){
 
     // Vibration string preview (small animated string next to level)
     const svx=W-200,svy=y,slen=80;
-    if(lv.n===0){
-      // Ground state: simple sinusoidal
-      ectx.beginPath();ectx.strokeStyle=lv.color;ectx.globalAlpha=0.7;ectx.lineWidth=1.5;
-      ectx.shadowColor=lv.color;ectx.shadowBlur=6;
-      for(let si=0;si<=40;si++){const su=si/40;const sx=svx-slen/2+su*slen;const sy=svy+10*Math.sin(Math.PI*su)*Math.cos(eTime*3);si===0?ectx.moveTo(sx,sy):ectx.lineTo(sx,sy);}
+    const isGndState=lv.n===0||lv.n==='0F';
+    if(isGndState){
+      // Ground state: flat line with quantum zero-point shimmer (no classical antinodes)
+      ectx.beginPath();ectx.strokeStyle=lv.color;ectx.globalAlpha=0.65;ectx.lineWidth=1.5;
+      ectx.shadowColor=lv.color;ectx.shadowBlur=5;
+      for(let si=0;si<=40;si++){const su=si/40;const sx=svx-slen/2+su*slen;
+        // tiny stochastic-looking shimmer: sum of two high-freq low-amp waves
+        const shimmer=1.2*(Math.sin(su*Math.PI*8+eTime*5.1)*0.5+Math.sin(su*Math.PI*13+eTime*7.3)*0.5);
+        const sy=svy+shimmer;si===0?ectx.moveTo(sx,sy):ectx.lineTo(sx,sy);}
       ectx.stroke();ectx.shadowBlur=0;
+      // flat baseline
+      ectx.beginPath();ectx.strokeStyle=lv.color;ectx.globalAlpha=0.25;ectx.lineWidth=1;
+      ectx.moveTo(svx-slen/2,svy);ectx.lineTo(svx+slen/2,svy);ectx.stroke();
     } else {
-      // Excited: n antinodes (correct: sin(n·π·u))
-      const harmonics=lv.n;
-      ectx.beginPath();ectx.strokeStyle=lv.color;ectx.globalAlpha=0.5;ectx.lineWidth=1.5;
+      // Excited: n antinodes — proper standing wave sin(n·π·u)·cos(ωt)
+      const harmonics=parseInt(lv.n)||1;
+      ectx.beginPath();ectx.strokeStyle=lv.color;ectx.globalAlpha=0.55;ectx.lineWidth=1.5;
       ectx.shadowColor=lv.color;ectx.shadowBlur=4;
-      for(let si=0;si<=40;si++){const su=si/40;const sx=svx-slen/2+su*slen;const sy=svy+8*Math.sin(harmonics*Math.PI*su)*Math.cos(eTime*3*(1+lv.n*0.3));si===0?ectx.moveTo(sx,sy):ectx.lineTo(sx,sy);}
+      for(let si=0;si<=40;si++){const su=si/40;const sx=svx-slen/2+su*slen;const sy=svy+8*Math.sin(harmonics*Math.PI*su)*Math.cos(eTime*3*(1+harmonics*0.3));si===0?ectx.moveTo(sx,sy):ectx.lineTo(sx,sy);}
       ectx.stroke();ectx.shadowBlur=0;
     }
   });
 
-  // Regge slope annotation
+  // Regge trajectory annotation — diagonal line showing J = α'·M² + intercept
   if(maxN>2){
-    ectx.globalAlpha=0.18;ectx.strokeStyle='#ffffff';ectx.lineWidth=1;ectx.setLineDash([4,6]);
-    const y0=pad+usableH;const yN=pad;
-    ectx.beginPath();ectx.moveTo(85,y0);ectx.lineTo(85,yN);ectx.stroke();
-    ectx.setLineDash([]);ectx.font='7px Share Tech Mono';ectx.fillStyle='rgba(255,200,160,0.85)';ectx.textAlign='left';ectx.globalAlpha=1;
-    ectx.fillText('Regge slope α\'',88,pad+8);
+    // Map level y-positions to M² values and draw the Regge slope as a diagonal
+    ectx.save();
+    ectx.globalAlpha=0.22;ectx.strokeStyle='#ffcc88';ectx.lineWidth=1.2;ectx.setLineDash([5,5]);
+    // The Regge line passes through the level positions offset rightward to show spin axis
+    const rX0=65,rX1=65+Math.min(60,usableH*0.28);
+    ectx.beginPath();ectx.moveTo(rX0,pad+usableH);ectx.lineTo(rX1,pad);ectx.stroke();
+    ectx.setLineDash([]);
+    ectx.font='7px Share Tech Mono';ectx.fillStyle='rgba(255,204,136,0.7)';ectx.globalAlpha=1;
+    ectx.textAlign='left';
+    ectx.fillText('J = \u03b1\u2032\u00b7M\u00b2',rX1+3,pad+10);
+    ectx.restore();
   }
 
   // Transition arc: draw photon between levels when transitioning
