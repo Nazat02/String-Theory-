@@ -4245,9 +4245,9 @@ function resizeL(){lcanvas.width=getAvailW();lcanvas.height=getAvailH();}
 resizeL();
 
 const LDATA={
-  landscape:{vacua:'~10⁵⁰⁰',lambda:'Scan of Λ > 0 vacua',status:'METASTABLE',note:'Each valley is a universe with different physics. The landscape of flux vacua arises from quantised fluxes threading compact cycles. Eternal inflation populates them all.'},
-  bubble:{vacua:'LOCAL MINIMUM',lambda:'ΔΛ < 0 (tunnelling)',status:'NUCLEATING',note:'Bubble nucleation: a quantum fluctuation creates a bubble of lower-energy vacuum inside our false vacuum. The bubble wall expands at nearly the speed of light.'},
-  flux:{vacua:'FLUX SECTORS',lambda:'Quantised n_i ∈ ℤ',status:'DISCRETISED',note:'Fluxes n_i through compact cycles choose a vacuum. With ~500 independent cycles each carrying O(10) flux units, we get ~10⁵⁰⁰ vacua — the landscape.'},
+  landscape:{vacua:'~10⁵⁰⁰',lambda:'Λ>0 (dS), Λ<0 (AdS), Λ≈0',status:'METASTABLE',note:'Each valley is a universe with different physics. The landscape spans both de Sitter (Λ>0) and Anti-de Sitter (Λ<0) vacua. Eternal inflation populates them all; anthropic selection favours small Λ>0.'},
+  bubble:{vacua:'LOCAL MINIMUM',lambda:'ΔΛ < 0 or > 0 (tunnelling)',status:'NUCLEATING',note:'Bubble nucleation: a quantum fluctuation creates a bubble of lower-energy vacuum inside our false vacuum. The bubble wall expands at nearly the speed of light. Upward tunnelling (ΔΛ>0) is also possible but suppressed.'},
+  flux:{vacua:'FLUX SECTORS',lambda:'Quantised n_i ∈ ℤ',status:'DISCRETISED',note:'Fluxes n_i through compact cycles choose a vacuum. With ~500 independent cycles each carrying O(10) flux units, we get ~10⁵⁰⁰ vacua. Most are AdS or unstable; de Sitter vacua are a rare subset.'},
 };
 
 function setLMode(m){
@@ -4285,39 +4285,76 @@ function drawLandscape(ctx,W,H,t,scale){
   const cx=W/2,cy=H/2;
 
   if(lMode==='landscape'){
-    // 2D potential landscape: V(φ) with many minima
-    const nX=W,stepX=3;
-    // Draw height-field as layered terrain
+    // Potential function V(x,y)
     function V(x,y){
-      // Superposition of many Gaussians (minima) plus slow-roll
-      let v=0.08*(x*x+y*y); // cosmological slope
+      let v=0.08*(x*x+y*y);
       for(const vac of LANDSCAPE_VACUA){
         const dx=(x-vac.x)*3,dy=(y-vac.y)*3;
         v-=vac.depth*Math.exp(-(dx*dx+dy*dy)/(2*vac.width*40));
       }
       return v;
     }
-    // Draw as contour lines
+
+    // --- Marching squares contour lines ---
+    const GRID=72;
+    // Pre-sample the grid once
+    const gv=new Float32Array((GRID+1)*(GRID+1));
+    for(let yi=0;yi<=GRID;yi++){
+      for(let xi=0;xi<=GRID;xi++){
+        const fx=xi/GRID*2-1,fy=yi/GRID*2-1;
+        gv[yi*(GRID+1)+xi]=V(fx,fy);
+      }
+    }
+    function gxy(xi,yi){return gv[yi*(GRID+1)+xi];}
+    // Interpolate crossing position along an edge
+    function lerp1(a,b,va,vb,level){return a+(b-a)*(level-va)/(vb-va);}
+
     const nContours=18;
     for(let ci=0;ci<nContours;ci++){
       const level=-0.35+ci*.04;
-      ctx.beginPath();let first=true;
-      for(let xi=0;xi<=80;xi++){
-        for(let yi=0;yi<=80;yi++){
-          const fx=xi/80*2-1,fy=yi/80*2-1;
-          const vHere=V(fx,fy);
-          if(Math.abs(vHere-level)<0.012){
-            const px=cx+(fx)*(W*.44),py=cy+(fy)*(H*.44);
-            if(first){ctx.moveTo(px,py);first=false;}else{ctx.lineTo(px,py);}
+      const alpha=0.09+ci*.027;
+      const hue=200+ci*5;
+      ctx.strokeStyle=`hsla(${hue},80%,65%,${alpha})`;
+      ctx.lineWidth=.85;
+      ctx.beginPath();
+      for(let yi=0;yi<GRID;yi++){
+        for(let xi=0;xi<GRID;xi++){
+          // Corner values
+          const v00=gxy(xi,yi),v10=gxy(xi+1,yi),v01=gxy(xi,yi+1),v11=gxy(xi+1,yi+1);
+          // Marching squares index
+          let idx=0;
+          if(v00>=level)idx|=1;
+          if(v10>=level)idx|=2;
+          if(v11>=level)idx|=4;
+          if(v01>=level)idx|=8;
+          if(idx===0||idx===15)continue; // fully outside or inside
+          // Cell corners in canvas space
+          const x0=cx+(xi/GRID*2-1)*(W*.44);
+          const x1=cx+((xi+1)/GRID*2-1)*(W*.44);
+          const y0=cy+(yi/GRID*2-1)*(H*.44);
+          const y1=cy+((yi+1)/GRID*2-1)*(H*.44);
+          // Edge midpoints (lerp)
+          const eB=lerp1(x0,x1,v00,v10,level); // bottom edge y=y0
+          const eT=lerp1(x0,x1,v01,v11,level); // top edge y=y1
+          const eL=lerp1(y0,y1,v00,v01,level); // left edge x=x0
+          const eR=lerp1(y0,y1,v10,v11,level); // right edge x=x1
+          const drawSeg=(ax,ay,bx,by)=>{ctx.moveTo(ax,ay);ctx.lineTo(bx,by);};
+          switch(idx){
+            case 1:case 14: drawSeg(eB,y0,x0,eL);break;
+            case 2:case 13: drawSeg(eB,y0,x1,eR);break;
+            case 3:case 12: drawSeg(x0,eL,x1,eR);break;
+            case 4:case 11: drawSeg(x1,eR,eT,y1);break;
+            case 6:case 9:  drawSeg(eB,y0,eT,y1);break;
+            case 7:case 8:  drawSeg(x0,eL,eT,y1);break;
+            case 5: drawSeg(eB,y0,x1,eR);drawSeg(x0,eL,eT,y1);break;
+            case 10: drawSeg(eB,y0,x0,eL);drawSeg(x1,eR,eT,y1);break;
           }
         }
       }
-      const alpha=0.08+ci*.025;
-      const hue=200+ci*5;
-      ctx.strokeStyle=`hsla(${hue},80%,65%,${alpha})`;ctx.lineWidth=.8;ctx.stroke();
+      ctx.stroke();
     }
 
-    // Draw vacuum minima as glowing dots
+    // Vacuum minima as glowing dots
     LANDSCAPE_VACUA.slice(0,80).forEach((vac,i)=>{
       const px=cx+vac.x*W*.43,py=cy+vac.y*H*.43;
       const pulse=.7+.3*Math.sin(t*2.2+i*.7);
@@ -4336,43 +4373,40 @@ function drawLandscape(ctx,W,H,t,scale){
     ctx.fillStyle='rgba(255,255,255,.8)';ctx.font='8px Share Tech Mono';ctx.textAlign='left';
     ctx.fillText('OUR VACUUM',ox+10,oy+4);
 
-    // Labels
-    ctx.fillStyle='rgba(68,221,255,.8)';ctx.font='9px Share Tech Mono';ctx.textAlign='center';
-    ctx.fillText('STRING LANDSCAPE — V(φ)',cx,40/s);
-    ctx.fillStyle='rgba(180,220,255,.5)';ctx.font='7px Share Tech Mono';
-    ctx.fillText('~10⁵⁰⁰ VACUA · EACH DOT IS A UNIVERSE',cx,55/s);
-
   } else if(lMode==='bubble'){
-    // Bubble nucleation: concentric circles expanding, with interior/exterior labels
-    const nBubbles=3;
+    // Bubble nucleation — spread centres across canvas
+    const BUBBLE_CENTRES=[
+      {bx:cx-W*.22,by:cy+H*.08},
+      {bx:cx+W*.2,by:cy-H*.15},
+      {bx:cx-W*.05,by:cy+H*.2},
+    ];
+    const nBubbles=BUBBLE_CENTRES.length;
     for(let bi=0;bi<nBubbles;bi++){
+      const {bx,by}=BUBBLE_CENTRES[bi];
       const startTime=bi*4.2;
       const age=(t*0.6-startTime);
       if(age<0)continue;
-      const maxR=Math.min(W,H)*.38;
+      const maxR=Math.min(W,H)*.32;
       const R=Math.min(age*maxR*.18,maxR);
       const alpha=Math.max(0,1-age*.06);
 
-      // False vacuum exterior
       ctx.save();
-      ctx.beginPath();ctx.arc(cx+bi*30-30,cy+bi*20-20,R,0,Math.PI*2);
+      ctx.beginPath();ctx.arc(bx,by,R,0,Math.PI*2);
       ctx.fillStyle=`rgba(20,80,120,${alpha*.15})`;ctx.fill();
       ctx.strokeStyle=`rgba(68,221,255,${alpha*.8})`;ctx.lineWidth=2;
       ctx.shadowColor='#44ddff';ctx.shadowBlur=16;ctx.stroke();ctx.shadowBlur=0;
       ctx.restore();
 
-      // True vacuum interior label
       if(R>40){
         ctx.save();ctx.fillStyle=`rgba(180,255,240,${alpha*.7})`;ctx.font='7px Share Tech Mono';ctx.textAlign='center';
-        ctx.fillText('TRUE VAC.',cx+bi*30-30,cy+bi*20-20);ctx.restore();
+        ctx.fillText('TRUE VAC.',bx,by);ctx.restore();
       }
-      // Wall velocity indicator
       if(R>20&&R<maxR*.95){
         ctx.save();ctx.strokeStyle=`rgba(255,200,100,${alpha*.6})`;ctx.lineWidth=1;ctx.setLineDash([3,4]);
-        ctx.beginPath();ctx.arc(cx+bi*30-30,cy+bi*20-20,R+8,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+        ctx.beginPath();ctx.arc(bx,by,R+8,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.restore();
       }
     }
-    // False vacuum fill
+    // False vacuum fill + bottom label
     ctx.save();ctx.fillStyle='rgba(255,100,30,.04)';ctx.fillRect(0,0,W,H);
     ctx.fillStyle='rgba(255,150,80,.55)';ctx.font='8px Share Tech Mono';ctx.textAlign='center';
     ctx.fillText('FALSE VACUUM (OUR UNIVERSE?)',cx,H-40);ctx.restore();
@@ -4382,24 +4416,19 @@ function drawLandscape(ctx,W,H,t,scale){
       const flashAlpha=Math.max(0,(0.4-flashPhase)/0.4)*.3;
       ctx.save();ctx.fillStyle=`rgba(255,255,255,${flashAlpha})`;ctx.fillRect(0,0,W,H);ctx.restore();
     }
-    ctx.fillStyle='rgba(68,221,255,.8)';ctx.font='9px Share Tech Mono';ctx.textAlign='center';
-    ctx.fillText('BUBBLE NUCLEATION',cx,40/s);
 
   } else {
-    // Flux vacua: show a grid of (n1,n2) flux choices, each a dot with height = potential
+    // Flux vacua grid
     const gridN=12;const cellW=W*.7/gridN,cellH=H*.65/gridN;
     const ox2=cx-W*.35,oy2=cy-H*.325;
-    ctx.fillStyle='rgba(68,221,255,.7)';ctx.font='9px Share Tech Mono';ctx.textAlign='center';
-    ctx.fillText('FLUX VACUA GRID (n₁ × n₂)',cx,35/s);
-    ctx.fillStyle='rgba(180,220,255,.5)';ctx.font='7px Share Tech Mono';
-    ctx.fillText('EACH CELL = DIFFERENT FLUX CHOICE = DIFFERENT UNIVERSE',cx,50/s);
 
     for(let ni=0;ni<gridN;ni++){
       for(let nj=0;nj<gridN;nj++){
         const seed=ni*gridN+nj;
-        const rng=(s)=>{let x=Math.sin(s+seed*137.5)*43758.5;return x-Math.floor(x);};
-        const lambda=rng(1.1)*2-1; // cosmological constant for this vacuum
-        const stable=rng(2.3)>.35;
+        const rng=(sv)=>{let x=Math.sin(sv+seed*137.5)*43758.5;return x-Math.floor(x);};
+        const lambda=rng(1.1)*2-1;
+        // Realistic: ~15% stable (most vacua are AdS or unstable)
+        const stable=rng(2.3)>.85;
         const px2=ox2+ni*cellW+cellW*.5;
         const py2=oy2+nj*cellH+cellH*.5;
         const R=Math.max(2,Math.min(cellW*.38,cellH*.38));
@@ -4407,23 +4436,43 @@ function drawLandscape(ctx,W,H,t,scale){
         const col=lambda>0?`rgba(68,221,255,${stable?.6:.2})`:`rgba(255,80,80,${stable?.6:.2})`;
         ctx.beginPath();ctx.arc(px2,py2,R*pulse,0,Math.PI*2);
         ctx.fillStyle=col;ctx.shadowColor=col;ctx.shadowBlur=stable?8:2;ctx.fill();ctx.shadowBlur=0;
-        // Lambda bar
         const barH=Math.abs(lambda)*cellH*.35;
         ctx.fillStyle=lambda>0?'rgba(68,221,255,.5)':'rgba(255,80,80,.5)';
         ctx.fillRect(px2-1.5,lambda>0?py2-barH:py2,3,barH);
       }
     }
-    // Axis labels
+    // Axis labels (inside scaled block — these are data labels tied to grid)
     ctx.fillStyle='rgba(180,220,255,.7)';ctx.font='7px Share Tech Mono';ctx.textAlign='center';
     ctx.fillText('n₁ →',cx,oy2+gridN*cellH+18);
     ctx.save();ctx.translate(ox2-18,cy);ctx.rotate(-Math.PI/2);ctx.fillText('n₂ →',0,0);ctx.restore();
-    // Legend
-    ctx.fillStyle='rgba(68,221,255,.7)';ctx.font='7px Share Tech Mono';ctx.textAlign='left';
-    ctx.fillText('● Λ>0 (de Sitter)',W-140,H-52);
-    ctx.fillStyle='rgba(255,80,80,.7)';ctx.fillText('● Λ<0 (AdS)',W-140,H-38);
-    ctx.fillStyle='rgba(180,180,180,.5)';ctx.fillText('◦ Unstable',W-140,H-24);
   }
 
+  ctx.restore(); // end scale block
+
+  // ── Labels drawn OUTSIDE scale transform so they stay fixed at any zoom ──
+  ctx.save();
+  ctx.font='9px Share Tech Mono';ctx.textAlign='center';
+  if(lMode==='landscape'){
+    ctx.fillStyle='rgba(68,221,255,.8)';
+    ctx.fillText('STRING LANDSCAPE — V(φ)',W/2,38);
+    ctx.fillStyle='rgba(180,220,255,.5)';ctx.font='7px Share Tech Mono';
+    ctx.fillText('~10⁵⁰⁰ VACUA · EACH DOT IS A UNIVERSE',W/2,52);
+  } else if(lMode==='bubble'){
+    ctx.fillStyle='rgba(68,221,255,.8)';
+    ctx.fillText('BUBBLE NUCLEATION',W/2,38);
+    ctx.fillStyle='rgba(180,220,255,.5)';ctx.font='7px Share Tech Mono';
+    ctx.fillText('QUANTUM TUNNELLING TO LOWER-ENERGY VACUUM',W/2,52);
+  } else {
+    ctx.fillStyle='rgba(68,221,255,.7)';
+    ctx.fillText('FLUX VACUA GRID (n₁ × n₂)',W/2,38);
+    ctx.fillStyle='rgba(180,220,255,.5)';ctx.font='7px Share Tech Mono';
+    ctx.fillText('EACH CELL = DIFFERENT FLUX CHOICE = DIFFERENT UNIVERSE',W/2,52);
+    // Legend fixed bottom-right
+    ctx.fillStyle='rgba(68,221,255,.7)';ctx.font='7px Share Tech Mono';ctx.textAlign='left';
+    ctx.fillText('● Λ>0 (de Sitter)',W-148,H-52);
+    ctx.fillStyle='rgba(255,80,80,.7)';ctx.fillText('● Λ<0 (AdS)',W-148,H-38);
+    ctx.fillStyle='rgba(180,180,180,.5)';ctx.fillText('◦ Unstable (most vacua)',W-148,H-24);
+  }
   ctx.restore();
 }
 
