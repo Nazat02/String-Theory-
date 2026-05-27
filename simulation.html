@@ -2044,7 +2044,7 @@ canvas{touch-action:none;}
       <div id="dbtns" class="btn-row">
         <div class="dbtn mode-btn active" data-da="d2">D2-BRANE</div>
         <div class="dbtn mode-btn" data-da="d1">D1-BRANE (STRING)</div>
-        <div class="dbtn mode-btn" data-da="stack">BRANE STACK</div>
+        <div class="dbtn mode-btn" data-da="stack">D2-BRANE STACK</div>
       </div>
     </div>
   </div>
@@ -2480,14 +2480,62 @@ document.querySelectorAll('.tab').forEach(tab=>{
 //  MODE 1 — PARTICLE VIEWER
 // ═══════════════════════════════════════════════════════════
 const PARTICLES=[
-  {name:'GRAVITON',sym:'G',color:'#ffffff',spin:'2',mass:'0 (massless)',type:'Closed string — gravity carrier',closed:true,boson:true,ampY:0.55,ampZ:0.55,freqMult:1.0,lobesMod:2,vibration:'Ground state, spin-2 polarisation',polarisation:'Quadrupole (2 transverse axes)',note:'The ONLY particle from a closed string ground state. Gravity leaks into extra dimensions because closed strings can leave D-branes.',desc:'CLOSED STRING · GROUND STATE · SPIN-2'},
-  {name:'DILATON',sym:'Φ',color:'#ffddcc',spin:'0',mass:'0 (massless)',type:'Closed string — scalar',closed:true,boson:true,ampY:0.4,ampZ:0.0,freqMult:1.2,lobesMod:0,vibration:'Ground state, monopole (breathing) mode',polarisation:'Isotropic — uniform radial pulsing',note:'Sibling of the graviton. Spin-0 scalar — vibrates as a uniform breathing mode (monopole), not a quadrupole. Sets the string coupling constant g_s = e^Φ. No confirmed experimental detection.',desc:'CLOSED STRING · GROUND STATE · SPIN-0'},
-  {name:'PHOTON',sym:'γ',color:'#ffcc00',spin:'1',mass:'0 (massless)',type:'Open string — EM force carrier',closed:false,boson:true,ampY:0.7,ampZ:0.0,freqMult:1.3,lobesMod:1,vibration:'Ground state, vector polarisation',polarisation:'Transverse (1 axis)',note:'Open string with endpoints on D-branes. The photon is the gauge boson of electromagnetism — U(1) symmetry.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · U(1)'},
-  {name:'GLUON',sym:'g',color:'#ff6a1a',spin:'1',mass:'0 (massless)',type:'Open string — strong force carrier',closed:false,boson:true,ampY:0.7,ampZ:0.0,freqMult:1.5,lobesMod:1,vibration:'Ground state, vector (color octet)',polarisation:'Transverse (1 axis, color charge)',note:'Open string with endpoints on coincident D-branes. 8 gluons from SU(3) gauge symmetry.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(3)'},
-  {name:'W/Z BOSON',sym:'W\u00b1Z',color:'#ff4500',spin:'1',mass:'80\u201391 GeV',type:'Open string — weak force carrier',closed:false,boson:true,ampY:0.65,ampZ:0.0,freqMult:1.1,lobesMod:1,vibration:'Ground state, vector \u00b7 massive (Higgs mech.)',polarisation:'Transverse (massive: +longitudinal mode)',note:'Open string, ground state. Acquires mass via the Higgs mechanism \u2014 not from a higher harmonic.',desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(2)'},
-  {name:'QUARK',sym:'q',color:'#ff2200',spin:'\u00bd',mass:'2 MeV \u2013 173 GeV',type:'Open string — fermion (superstring)',closed:false,boson:false,ampY:0.6,ampZ:0.0,freqMult:1.6,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor (\u00bd-integer spin)',note:'Requires SUPERSTRING theory. Fermions come from the fermionic oscillator ground state \u2014 same energy level as bosons.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
-  {name:'ELECTRON',sym:'e\u207b',color:'#ff8c42',spin:'\u00bd',mass:'0.511 MeV',type:'Open string — lepton (superstring)',closed:false,boson:false,ampY:0.55,ampZ:0.0,freqMult:1.8,lobesMod:1,vibration:'Superstring ground state, fermionic sector',polarisation:'Spinor \u2014 no color charge',note:'Like quarks, electrons are fermionic ground states of superstrings. They live on D-branes but carry no color charge.',desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
-  {name:'HIGGS BOSON',sym:'H',color:'#ffaa44',spin:'0',mass:'125.1 GeV',type:'Open string — scalar (moduli)',closed:false,boson:true,ampY:0.85,ampZ:0.0,freqMult:0.7,lobesMod:1,vibration:'Lowest scalar mode',polarisation:'Scalar (no spin)',note:'The Higgs is conjectured to arise from a scalar moduli or brane-position field in string compactifications — not from excited harmonics. Note: bosonic string theory has a tachyon (n=−1, M²<0) which is a separate instability, unrelated to the Higgs.',desc:'OPEN STRING · SCALAR STATE · SPIN-0'},
+  // GRAVITON: closed string, lobes=2, pure h₊ in-plane quadrupole. z=0 (no h× mixing).
+  {name:'GRAVITON',sym:'G',color:'#ffffff',spin:'2',mass:'0 (massless)',type:'Closed string — gravity carrier',
+   closed:true,boson:true,ampY:0.55,ampZ:0.0,freqMult:1.0,lobesMod:2,
+   vibration:'Ground state, spin-2 · h₊ quadrupole: X stretches while Y squeezes',
+   polarisation:'h₊ polarisation — in-plane quadrupole, cos(2θ) deformation',
+   note:'The ONLY particle from a closed string ground state. Gravity leaks into extra dimensions because closed strings can leave D-branes. Shown: h₊ polarisation. h× (cross) is a 45° rotation of the same mode.',
+   desc:'CLOSED STRING · GROUND STATE · SPIN-2'},
+  // DILATON: closed string, monopole breathing, z=0 (loop breathes in-plane — correct for 2D cross-section of 3D monopole).
+  {name:'DILATON',sym:'\u03a6',color:'#ffddcc',spin:'0',mass:'0 (massless)',type:'Closed string — scalar',
+   closed:true,boson:true,ampY:0.4,ampZ:0.0,freqMult:1.2,lobesMod:0,
+   vibration:'Ground state, monopole (breathing) mode — uniform radial pulsing',
+   polarisation:'Isotropic — loop radius breathes uniformly (2D cross-section of 3D monopole)',
+   note:'Sibling of the graviton. Spin-0 scalar — vibrates as a uniform breathing mode (monopole), not a quadrupole. Sets the string coupling constant g_s = e^\u03a6. No confirmed experimental detection.',
+   desc:'CLOSED STRING · GROUND STATE · SPIN-0'},
+  // PHOTON: open string, circular polarisation — helix trace. π/2 phase between Y and Z.
+  {name:'PHOTON',sym:'\u03b3',color:'#ffcc00',spin:'1',mass:'0 (massless)',type:'Open string — EM force carrier',
+   closed:false,boson:true,ampY:0.7,ampZ:0.7,freqMult:1.3,lobesMod:1,
+   vibration:'Ground state, vector — circular polarisation (helical worldline trace)',
+   polarisation:'Circular polarisation: Y·cos(t) + Z·sin(t) — equal transverse amplitudes',
+   note:'Open string with endpoints on D-branes. Shown as circular polarisation (superposition of two linear transverse modes with π/2 phase). The photon has 2 transverse polarisation states — linear combinations give circular.',
+   desc:'OPEN STRING · GROUND STATE · SPIN-1 · U(1)'},
+  // GLUON: same as photon — circular polarisation, color octet.
+  {name:'GLUON',sym:'g',color:'#ff6a1a',spin:'1',mass:'0 (massless)',type:'Open string — strong force carrier',
+   closed:false,boson:true,ampY:0.7,ampZ:0.7,freqMult:1.5,lobesMod:1,
+   vibration:'Ground state, vector — circular polarisation · color octet',
+   polarisation:'Circular polarisation: Y·cos(t) + Z·sin(t) — 8 color states',
+   note:'Open string with endpoints on coincident D-branes. 8 gluons from SU(3) gauge symmetry. Circular polarisation shown — same transverse mode structure as the photon but carrying color charge.',
+   desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(3)'},
+  // W/Z BOSON: massive spin-1 — circular polarisation with equal Y=Z amplitude (all 3 polarisations as superposition).
+  {name:'W/Z BOSON',sym:'W\u00b1Z',color:'#ff4500',spin:'1',mass:'80\u201391 GeV',type:'Open string — weak force carrier',
+   closed:false,boson:true,ampY:0.65,ampZ:0.65,freqMult:1.1,lobesMod:1,
+   vibration:'Ground state, massive vector — circular + longitudinal (3 polarisation states)',
+   polarisation:'Circular polarisation + longitudinal (massive: Higgs mechanism adds 3rd mode)',
+   note:'Open string, ground state. Acquires mass via the Higgs mechanism — not from a higher harmonic. Unlike the photon, W/Z has a third longitudinal polarisation. Circular polarisation shown as representative superposition.',
+   desc:'OPEN STRING · GROUND STATE · SPIN-1 · SU(2)'},
+  // QUARK: open superstring fermion — exact π/2 spinor phase offset between Y and Z.
+  {name:'QUARK',sym:'q',color:'#ff2200',spin:'\u00bd',mass:'2 MeV \u2013 173 GeV',type:'Open string — fermion (superstring)',
+   closed:false,boson:false,ampY:0.6,ampZ:0.3,freqMult:1.6,lobesMod:1,
+   vibration:'Superstring ground state, fermionic sector — Y+Z with exact π/2 spinor phase',
+   polarisation:'Spinor (\u00bd-integer spin) — elliptical: AY≠AZ with π/2 phase',
+   note:'Requires SUPERSTRING theory. Fermions come from the fermionic oscillator ground state — same energy level as bosons. Elliptical (not circular) trajectory: larger Y than Z amplitude distinguishes quark from massless bosons.',
+   desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
+  // ELECTRON: same spinor structure, smaller Z (no color charge).
+  {name:'ELECTRON',sym:'e\u207b',color:'#ff8c42',spin:'\u00bd',mass:'0.511 MeV',type:'Open string — lepton (superstring)',
+   closed:false,boson:false,ampY:0.55,ampZ:0.2,freqMult:1.8,lobesMod:1,
+   vibration:'Superstring ground state, fermionic sector — Y+Z with exact π/2 spinor phase',
+   polarisation:'Spinor — narrower ellipse than quark (no color charge)',
+   note:'Like quarks, electrons are fermionic ground states of superstrings. They live on D-branes but carry no color charge. Narrower Z amplitude than quarks reflects absence of color degrees of freedom.',
+   desc:'OPEN SUPERSTRING · GROUND STATE · SPIN-\u00bd'},
+  // HIGGS: open string spin-0 scalar — single-antinode sin(πu) envelope, z=0, no circular motion.
+  {name:'HIGGS BOSON',sym:'H',color:'#ffaa44',spin:'0',mass:'125.1 GeV',type:'Open string — scalar (moduli)',
+   closed:false,boson:true,ampY:0.75,ampZ:0.0,freqMult:0.7,lobesMod:0,
+   vibration:'Scalar mode — single-antinode breathing, no internal nodes, z=0',
+   polarisation:'Scalar (spin-0) — pure Y oscillation, no helical motion',
+   note:'The Higgs arises from a scalar moduli or brane-position field in string compactifications. Single-antinode mode with no internal nodes and no Z component — clearly distinct from spin-1 circular and spin-2 quadrupole modes.',
+   desc:'OPEN STRING · SCALAR STATE · SPIN-0'},
 ];
 
 const canvas1=document.getElementById('canvas');
@@ -2536,17 +2584,67 @@ function updateString1(dt){
   const L=2.0,AY=def.ampY,AZ=def.ampZ,lobes=def.lobesMod;
   const arrays=lines.map(l=>l.geometry.attributes.position.array);
   if(def.closed){
-    // lobes===0 means monopole (dilaton breathing mode): uniform radial pulsing
-    for(let i=0;i<=SEG;i++){const u=i/SEG,theta=u*Math.PI*2;
-      let r,x,y,z;
-      if(lobes===0){r=L*(1+AY*0.3*Math.cos(stringTime));x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=0;}
-      else{const dR=AY*Math.cos(lobes*theta)*Math.cos(stringTime),dZ=AZ*Math.sin(lobes*theta)*Math.cos(stringTime+1.5708);r=L*(1+dR*0.3);x=Math.cos(theta)*r;y=Math.sin(theta)*r;z=dZ;}
-      for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}}}
-  else{
-    // Standing wave: n antinodes (lobesMod), planar in Y; Z is independent second polarisation plane
-    const n=lobes||1;
-    for(let i=0;i<=SEG;i++){const u=i/SEG,x=(u-.5)*(L*2),env=Math.sin(n*Math.PI*u),y=AY*env*Math.cos(stringTime),z=AZ*env*Math.cos(stringTime+1.9);for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}}
-    activeObjects.forEach(o=>{if(o.userData.endSphere!==undefined)o.position.set(o.userData.endSphere*L,0,0);});}
+    for(let i=0;i<=SEG;i++){
+      const u=i/SEG,theta=u*Math.PI*2;
+      let x,y,z;
+      if(lobes===0){
+        // DILATON — pure monopole breathing: radius pulses uniformly, z stays 0.
+        // A 2D loop breathing in-plane IS the correct cross-section of an isotropic
+        // 3D monopole mode. A constant z-offset bobs the whole ring — physically wrong.
+        const r=L*(1+AY*0.3*Math.cos(stringTime));
+        x=Math.cos(theta)*r; y=Math.sin(theta)*r; z=0;
+      } else {
+        // GRAVITON — clean h₊ polarisation only.
+        // h₊: stretch along X while squeezing along Y (and vice-versa), nothing in Z.
+        // dR = A·cos(2θ)·cos(t) gives exactly this in-plane quadrupole.
+        // We drop the dZ sin(2θ) term — that is h× (cross) polarisation, a different state.
+        const dR=AY*Math.cos(lobes*theta)*Math.cos(stringTime);
+        const r=L*(1+dR*0.3);
+        x=Math.cos(theta)*r; y=Math.sin(theta)*r; z=0;
+      }
+      for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}
+    }
+  } else {
+    if(lobes===0){
+      // HIGGS — open string spin-0 scalar: single-antinode envelope, no internal nodes.
+      // sin(π·u) is zero at both endpoints (Dirichlet-like boundary condition satisfied)
+      // and maximum at centre — the lowest scalar breathing mode.
+      for(let i=0;i<=SEG;i++){
+        const u=i/SEG,x=(u-.5)*(L*2);
+        const env=Math.sin(Math.PI*u);
+        const y=AY*env*Math.cos(stringTime);
+        for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=0;}
+      }
+    } else {
+      // All other open strings — standing wave with lobes antinodes.
+      const n=lobes;
+      // Phase offset logic per particle type:
+      //   Photon/Gluon (massless spin-1, AZ>0):  π/2 → circular polarisation (helical trace) ✓
+      //   W/Z (massive spin-1, AZ>0):  0 phase → Y and Z in-phase but Z uses *different envelope*
+      //     to represent longitudinal mode: Z oscillates as cos(t) while Y as cos(t),
+      //     but Z amplitude is along the string axis — we model it as same-phase quadrature
+      //     with amplitude equal to AZ so it visually bulges the string sideways+forward.
+      //   Fermions (quark/electron, AZ>0):  exact π/2 for clean spinor quarter-cycle offset.
+      let phaseZ;
+      if(!def.boson){
+        phaseZ=Math.PI/2; // exact quarter-cycle for spinor representation
+      } else if(def.spin==='1'&&AZ>0){
+        // massless photon/gluon → circular polarisation (π/2 helix)
+        // massive W/Z → also π/2 but equal AY=AZ gives circular; this is acceptable
+        // since all 3 polarisations of a massive vector include circular combinations
+        phaseZ=Math.PI/2;
+      } else {
+        phaseZ=0;
+      }
+      for(let i=0;i<=SEG;i++){
+        const u=i/SEG,x=(u-.5)*(L*2),env=Math.sin(n*Math.PI*u);
+        const y=AY*env*Math.cos(stringTime);
+        const z=AZ*env*Math.cos(stringTime+phaseZ);
+        for(const arr of arrays){arr[i*3]=x;arr[i*3+1]=y;arr[i*3+2]=z;}
+      }
+    }
+    activeObjects.forEach(o=>{if(o.userData.endSphere!==undefined)o.position.set(o.userData.endSphere*L,0,0);});
+  }
   lines.forEach(l=>l.geometry.attributes.position.needsUpdate=true);
 }
 const sel=document.getElementById('selector');
@@ -2747,55 +2845,135 @@ function updateI(dt){
     }
 
   } else {
-    // EXCHANGE (t-channel): two parallel strings momentarily pinch together at centre,
-    // share a merged region, then separate. NO crossing — smooth tube topology.
-    const period2=5.0,ph2=(iTime%period2)/period2;
-    // bell pulse: 0 at start, peaks at ph2=0.5, back to 0
-    const interact=Math.max(0,Math.sin(Math.PI*ph2));
-    const gap=1.3;
+    // ═══════════════════════════════════════════════════════════════
+    // BOSON EXCHANGE — physically correct string theory picture
+    //
+    // Real string theory: exchange is NOT a separate "rung" particle.
+    // It is a WORLDSHEET TOPOLOGY CHANGE:
+    //   Phase 1 (approach):   two separate vibrating strings propagate freely
+    //   Phase 2 (join):       they touch at ONE POINT — pair-of-pants junction
+    //                         forms — worldsheet becomes connected surface
+    //   Phase 3 (exchange):   connected — vibration modes mix across both strings
+    //                         The exchanged boson IS this shared oscillation
+    //   Phase 4 (split):      worldsheet splits — two separate strings again,
+    //                         each carrying away changed vibrational energy
+    //
+    // The "rung" is the exchanged string — it vibrates because it is a real
+    // string. The junction dots are the smooth topology-change points (no
+    // sharp vertex — this is why string theory is UV finite).
+    //
+    // Rung endpoints are sampled from the actual string point arrays so
+    // they are always pixel-perfect on the vibrating curves.
+    // ═══════════════════════════════════════════════════════════════
 
-    const exchangeColors=[0xff6a1a, 0xffaa44]; // distinct warm tones for each string
-    [0,1].forEach(si=>{
-      const sign=si===0?1:-1;
-      const ecol=exchangeColors[si];
-      const ml=makeILine(ecol,.85),mg=makeILine(ecol,.12);
-      let p0x=-4,p0y=0,p1x=4,p1y=0;
-      const mpts=mkPts(u=>{
-        const x=-4+u*8;
-        // Gaussian pinch toward y=0 in the central interaction zone
-        const pinch=interact*gap*0.92*Math.exp(-Math.pow((u-0.5)*3.5,2));
-        const yBase=sign*Math.max(0.0, gap-pinch);
-        const env=Math.sin(Math.PI*u);
-        const y=yBase+0.3*env*Math.cos(iTime*3+si*1.2);
-        if(u===0){p0x=x;p0y=y;}
-        p1x=x;p1y=y;
-        return[x,y,0];
-      });
-      fillLine(ml,mpts);fillLine(mg,mpts);
-      // endpoint dots at exact start and end of curve
-      [[p0x,p0y],[p1x,p1y]].forEach(([ex,ey])=>{
-        const sg=new THREE.SphereGeometry(.08,10,10);
-        const sm=new THREE.MeshBasicMaterial({color:ecol,transparent:true,opacity:.65});
-        const sp=new THREE.Mesh(sg,sm);sp.position.set(ex,ey,0);
-        scene2.add(sp);iObjects.push(sp);
-      });
+    const gap    = 1.5;
+    const tipX   = 4.0;
+    const rungX  = 0.0;
+    const colA   = 0xff6a1a;
+    const colB   = 0xffaa44;
+    const colEx  = 0xffffff;   // exchanged string colour
+
+    // Period & phase
+    const PERIOD = 9.0;
+    const ph     = (iTime % PERIOD) / PERIOD;  // 0→1
+
+    // smooth 0→1→0 interact envelope
+    const raw    = Math.sin(Math.PI * ph);
+    const interact = raw < 0 ? 0 : raw * raw * (3 - 2 * raw);
+    const op     = Math.min(interact / 0.12, 1.0);
+
+    // ── Phase 1 & 4: strings vibrate freely far from junction ──
+    // ── Phase 2 & 3: vibration suppressed at rungX (modes mix in joined sheet) ──
+    const stringPts = [];
+
+    [
+      { sign:  1, col: colA, vph: 0.0 },
+      { sign: -1, col: colB, vph: 1.9 },
+    ].forEach(({ sign, col, vph }) => {
+      const pts = [];
+      for (let i = 0; i <= ISEG; i++) {
+        const u   = i / ISEG;
+        const x   = -tipX + u * 2 * tipX;
+        const dx  = x - rungX;
+
+        // Vibration: standing wave modes 1 & 2 (physically real)
+        // Suppressed near junction during exchange (worldsheet is joined there)
+        const suppress = interact * Math.exp(-dx * dx * 2.0);
+        const amp1 = 0.30 * (1 - suppress);
+        const amp2 = 0.10 * (1 - suppress);
+        const vib  = amp1 * Math.sin(Math.PI * u)     * Math.cos(iTime * 3.0 + vph)
+                   + amp2 * Math.sin(2 * Math.PI * u) * Math.cos(iTime * 5.3 + vph + 1.1);
+
+        pts.push([x, sign * gap + vib, 0]);
+      }
+      const ml = makeILine(col, 0.92), mg = makeILine(col, 0.13);
+      fillLine(ml, pts); fillLine(mg, pts);
+      stringPts.push(pts);
     });
 
-    // Merged zone glow: single bright line in the region where strings touch, no separate geometry
-    if(interact>0.25){
-      const zoneW=3.5*interact;
-      const jl=makeILine(0xffffff, Math.min(interact*0.55,0.5));
-      const jpts=mkPts(u=>{
-        const x=(u-0.5)*zoneW*2;
-        const y=0.0; // at y=0, exactly where both strings converge
-        return[x,y,0];
+    // ── Sample exact junction y from point arrays ──
+    // Rung endpoints track the live vibrating strings — always on-curve.
+    const sample = pts => {
+      let best = 0, bestD = Infinity;
+      pts.forEach(([px], i) => { const d = Math.abs(px - rungX); if (d < bestD) { bestD = d; best = i; } });
+      return pts[best][1];
+    };
+    const jTop = sample(stringPts[0]);
+    const jBot = sample(stringPts[1]);
+    const midY = (jTop + jBot) * 0.5;
+
+    if (interact > 0.01) {
+      // ── Exchanged string (the rung) — vibrates as a real string ──
+      // It has its own standing-wave vibration perpendicular to its length (in x).
+      // This is the physically real exchanged boson: a string in a specific mode.
+      const rl = makeILine(colEx, op * 0.92);
+      const rg = makeILine(colEx, op * 0.20);
+      const rpts = [];
+      for (let i = 0; i <= ISEG; i++) {
+        const u   = i / ISEG;
+        const y   = jBot + u * (jTop - jBot);   // spans full gap between strings
+        // Rung vibrates in x — standing wave on the exchanged string
+        const rungVib = 0.09 * interact
+                      * Math.sin(Math.PI * u)       * Math.cos(iTime * 4.2)
+                      + 0.04 * interact
+                      * Math.sin(2 * Math.PI * u)   * Math.cos(iTime * 7.1 + 0.8);
+        rpts.push([rungX + rungVib, y, 0]);
+      }
+      fillLine(rl, rpts); fillLine(rg, rpts);
+
+      // ── Junction dots — smooth topology-change points, no sharp vertex ──
+      // Colour blends from string colour to white at peak (worldsheet merged)
+      [[colA, jTop], [colB, jBot]].forEach(([ec, jy]) => {
+        const pulse = 0.6 + 0.4 * Math.abs(Math.sin(iTime * 5.2));
+        // Dot grows with interaction — represents the smooth junction region
+        const jRad = 0.10 + 0.06 * interact;
+        const sg = new THREE.SphereGeometry(jRad, 12, 12);
+        const sm = new THREE.MeshBasicMaterial({ color: ec, transparent: true, opacity: pulse * op });
+        const sp = new THREE.Mesh(sg, sm);
+        sp.position.set(rungX + rpts[Math.round(interact > 0.5 ? 0 : ISEG)][0] * 0, jy, 0);
+        // Place at rungX (rung endpoints, which track the string y exactly)
+        sp.position.set(rungX, jy, 0);
+        scene2.add(sp); iObjects.push(sp);
+
+        // Glow halo — the smooth smearing of the interaction vertex
+        const hg = new THREE.SphereGeometry(jRad * 2.2, 12, 12);
+        const hm = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.06 * op * pulse });
+        const hp = new THREE.Mesh(hg, hm);
+        hp.position.set(rungX, jy, 0);
+        scene2.add(hp); iObjects.push(hp);
       });
-      fillLine(jl,jpts);
-      // Small glow sphere at centre of merged zone
-      const sg=new THREE.SphereGeometry(.10*interact,10,10);
-      const spm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:interact*0.6});
-      const sp=new THREE.Mesh(sg,spm);
-      scene2.add(sp);iObjects.push(sp);
+
+      // ── Virtual boson indicator — off-shell quantum fluctuation ──
+      // Stays near midpoint of rung with rapid irregular flicker.
+      // In string theory this is the off-shell propagation of the exchanged mode.
+      const jitter = 0.10 * Math.sin(iTime * 8.1) + 0.05 * Math.sin(iTime * 14.7);
+      const bosonY = midY + jitter * interact;
+      const bPulse = 0.4 + 0.6 * Math.abs(Math.sin(iTime * 7.3));
+      const cg = new THREE.SphereGeometry(0.11, 14, 14);
+      const cm = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: bPulse * op * 0.85 });
+      const cp = new THREE.Mesh(cg, cm);
+      cp.position.set(rungX, bosonY, 0);
+      scene2.add(cp); iObjects.push(cp);
     }
   }
 }
@@ -2833,19 +3011,126 @@ function buildWorldsheet(){
     for(let it=0;it<=NT;it++){const tau=(it/NT)*2-1;const row=[];for(let is=0;is<=NS;is++){const sigma=is/NS;const x=(sigma-.5)*4;const z=tau*3;const amp=0.55*Math.sin(Math.PI*sigma);const y=amp*(Math.cos(wTime*2.8+tau*2)*0.7+Math.cos(wTime*1.9+tau*3.5+sigma*Math.PI)*0.3);row.push(new THREE.Vector3(x,y,z));}grid.push(row);const geo=new THREE.BufferGeometry().setFromPoints(row);const mat=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:it===0||it===NT?0.6:0.12});const line=new THREE.Line(geo,mat);pivot3.add(line);wObjects3.push(line);}
     for(let is=0;is<=NS;is+=3){const pts=grid.map(r=>r[is]);const geo=new THREE.BufferGeometry().setFromPoints(pts);const mat=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:is===0||is===NS?0.5:0.1});const line=new THREE.Line(geo,mat);pivot3.add(line);wObjects3.push(line);}
     const cr=grid[Math.round(NT/2)];const cgeo=new THREE.BufferGeometry().setFromPoints(cr);const cmat=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.9});const cline=new THREE.Line(cgeo,cmat);pivot3.add(cline);wObjects3.push(cline);
-    [-1,1].forEach(side=>{const sg=new THREE.SphereGeometry(.09,10,10);const sm=new THREE.MeshBasicMaterial({color:0xffcc00});const sp=new THREE.Mesh(sg,sm);sp.position.set(side*2,0,0);pivot3.add(sp);wObjects3.push(sp);});
+    // FIX 2: endpoint dots placed along the full boundary edge (σ=0 and σ=π, all τ), not a single frozen midpoint
+    [0,NS].forEach(isBound=>{const bpts=grid.map(r=>r[isBound]);const bge=new THREE.BufferGeometry().setFromPoints(bpts);const bma=new THREE.LineBasicMaterial({color:0xffcc00,transparent:true,opacity:.85,linewidth:2});const bl=new THREE.Line(bge,bma);pivot3.add(bl);wObjects3.push(bl);
+      // Small sphere markers at τ=0 (midpoint of time) on each boundary
+      const mid=bpts[Math.round(NT/2)];const sg=new THREE.SphereGeometry(.1,10,10);const sm=new THREE.MeshBasicMaterial({color:0xffcc00});const sp=new THREE.Mesh(sg,sm);sp.position.copy(mid);pivot3.add(sp);wObjects3.push(sp);});
+    // FIX 1 (open): axis labels — τ along Z (time), σ along X (string coord)
+    const tauLbl=makeTextLabel('τ  (proper time)','↑ worldsheet time axis');tauLbl.position.set(-2.8,0,2.8);pivot3.add(tauLbl);wObjects3.push(tauLbl);
+    const sigLbl=makeTextLabel('σ  (string coord)','→  σ ∈ [0, π]');sigLbl.position.set(0,0,-3.6);pivot3.add(sigLbl);wObjects3.push(sigLbl);
   } else if(wMode==='closed'){
-    for(let it=0;it<=NT;it++){const tau=(it/NT)*2-1;const row=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const R=1.5;const dr=0.35*(Math.cos(sigma*2+wTime*2.6+tau)*0.6+Math.sin(sigma+wTime*1.7+tau*2)*0.4);row.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),tau*3,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(row);const mat=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:it%5===0?0.35:0.08});const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}
+    for(let it=0;it<=NT;it++){const tau=(it/NT)*2-1;const row=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const R=1.5;const dr=0.35*(Math.cos(sigma*2+wTime*2.6+tau)*0.6+Math.sin(sigma+wTime*1.7+tau*2)*0.4);row.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),tau*3,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(row);
+      // FIX 5: clearly highlight top (τ=+1) and bottom (τ=−1) boundary rings in bright color
+      const isBoundary=(it===0||it===NT);const mat=new THREE.LineBasicMaterial({color:isBoundary?0xffffff:col,transparent:true,opacity:isBoundary?0.75:it%5===0?0.35:0.08});
+      const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}
     for(let is=0;is<NS;is+=4){const pts=[];for(let it=0;it<=NT;it++){const tau=(it/NT)*2-1;const sigma=(is/NS)*Math.PI*2;const R=1.5;const dr=0.35*(Math.cos(sigma*2+wTime*2.6+tau)*0.6+Math.sin(sigma+wTime*1.7+tau*2)*0.4);pts.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),tau*3,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(pts);const mat=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:.14});const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}
     const mid=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const R=1.5;const dr=0.35*(Math.cos(sigma*2+wTime*2.6)*0.6+Math.sin(sigma+wTime*1.7)*0.4);mid.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),0,Math.sin(sigma)*R*(1+dr)));}const cgeo=new THREE.BufferGeometry().setFromPoints(mid);const cmid=new THREE.Line(cgeo,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.9}));pivot3.add(cmid);wObjects3.push(cmid);
+    // FIX 1 (closed): axis labels — τ along Y (vertical), σ azimuthal
+    const tauLbl=makeTextLabel('τ  (proper time)','↑ vertical axis  τ ∈ [−1, +1]');tauLbl.position.set(2.2,0,0);pivot3.add(tauLbl);wObjects3.push(tauLbl);
+    const sigLbl=makeTextLabel('σ  (string coord)','⟳  periodic  0…2π');sigLbl.position.set(0,-3.6,0);pivot3.add(sigLbl);wObjects3.push(sigLbl);
   } else {
-    for(let it=0;it<=12;it++){const tau=it/12;const y=2.5-tau*2.5;const R=0.8+tau*0.25;const row=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const dr=0.2*Math.sin(sigma*2+wTime*2.2+tau);row.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),y,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(row);const mat=new THREE.LineBasicMaterial({color:0xff6a1a,transparent:true,opacity:it%3===0?0.45:0.12});const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}
-    [-1.4,1.4].forEach((xOff,si)=>{for(let it=0;it<=14;it++){const tau=it/14;const y=-(tau*2.5);const R=0.6+0.1*tau;const row=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const dr=0.15*Math.sin(sigma*2+wTime*2.5+tau+si*1.5);row.push(new THREE.Vector3(xOff+Math.cos(sigma)*R*(1+dr),y,Math.sin(sigma)*R*(1+dr)));}const geo=new THREE.BufferGeometry().setFromPoints(row);const mat=new THREE.LineBasicMaterial({color:0xff6a1a,transparent:true,opacity:it%3===0?0.45:0.12});const wl=new THREE.Line(geo,mat);pivot3.add(wl);wObjects3.push(wl);}});
-    [[0,2.5,.9],[1.4,-2.5,.65],[-1.4,-2.5,.65]].forEach(([xo,yo,R])=>{const pts=[];for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;const dr=0.2*Math.sin(sigma*2+wTime*2.2);pts.push(new THREE.Vector3(xo+Math.cos(sigma)*R*(1+dr),yo,Math.sin(sigma)*R*(1+dr)));}const cgeo=new THREE.BufferGeometry().setFromPoints(pts);const jmat=new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.8});const jl=new THREE.Line(cgeo,jmat);pivot3.add(jl);wObjects3.push(jl);});
-    const sg=new THREE.SphereGeometry(.18,12,12);const sm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.5+0.3*Math.sin(wTime*4)});const sp=new THREE.Mesh(sg,sm);sp.position.set(0,2.5,0);pivot3.add(sp);wObjects3.push(sp);
-    // Axis labels for pair-of-pants
-    const tauLbl=makeTextLabel('τ (proper time)','↑ worldsheet time');tauLbl.position.set(1.6,0,0);pivot3.add(tauLbl);wObjects3.push(tauLbl);
-    const sigLbl=makeTextLabel('σ (string coord)','→ periodic 0…2π');sigLbl.position.set(0,-3.2,0);pivot3.add(sigLbl);wObjects3.push(sigLbl);
+    // ── TRUE PAIR-OF-PANTS worldsheet ──────────────────────────────────────
+    // Single connected surface: one tube narrows to a saddle pinch at y=0,
+    // then bifurcates into two tubes. All radii continuous at every join.
+    //
+    // Phase A  y: +2.5 → +0.3   incoming tube, radius 0.85 → 0.30 (narrows to pinch)
+    // Phase B  y: +0.3 → -0.3   saddle/waist — single surface, two lobes emerge
+    // Phase C  y: -0.3 → -2.5   two outgoing tubes, radius 0.30 → 0.65 each
+    //
+    // Ring geometry for each slice:
+    //   Phase A: simple circle centred at (0,y,0)
+    //   Phase B: figure-8 / lemniscate cross-section — one loop splits into two
+    //   Phase C: two separate circles centred at (±cx, y, 0)
+    // ───────────────────────────────────────────────────────────────────────
+
+    const SEP = 1.3; // final X-separation of the two output tubes
+    const col3 = 0xff6a1a;
+
+    // helper: build one horizontal ring as a THREE.Line and register it
+    function addRing(cx,cy,cz,R,color,opacity){
+      const pts=[];
+      for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;pts.push(new THREE.Vector3(cx+Math.cos(sigma)*R,cy,cz+Math.sin(sigma)*R));}
+      const g=new THREE.BufferGeometry().setFromPoints(pts);
+      const m=new THREE.LineBasicMaterial({color,transparent:true,opacity});
+      const l=new THREE.Line(g,m);pivot3.add(l);wObjects3.push(l);
+    }
+
+    // ── Phase A: single incoming tube, radius narrows 0.85→0.30 ──
+    const PA=16;
+    for(let it=0;it<=PA;it++){
+      const t=it/PA; // 0=top, 1=pinch entry
+      const y=2.5-t*2.2;                          // y: 2.5 → 0.3
+      const R=0.85-t*0.55;                         // R: 0.85 → 0.30
+      const dr=0.18*(1-t)*Math.sin(2+wTime*2.2+t); // vibration fades toward pinch
+      const pts=[];
+      for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(sigma)*R*(1+dr),y,Math.sin(sigma)*R*(1+dr)));}
+      const g=new THREE.BufferGeometry().setFromPoints(pts);
+      const bright=(it===0||it%4===0);
+      const m=new THREE.LineBasicMaterial({color:col3,transparent:true,opacity:bright?0.45:0.11});
+      const l=new THREE.Line(g,m);pivot3.add(l);wObjects3.push(l);
+    }
+
+    // ── Phase B: saddle zone — figure-8 cross-section morphing 0→1 ──
+    // At blend=0: one circle R=0.30 centred at x=0
+    // At blend=1: two circles R=0.30 centred at x=±SEP/2
+    const PB=14;
+    for(let it=0;it<=PB;it++){
+      const blend=it/PB;             // 0=top of saddle, 1=bottom
+      const y=0.3-blend*0.6;         // y: +0.3 → -0.3
+      const r=0.30+blend*0.05;       // slight radius growth through waist
+      const cx=blend*SEP/2;          // centres drift apart
+      const pts=[];
+      // Draw both lobes as one polyline: lobe A (positive cx) then lobe B (negative cx)
+      // This keeps it one connected curve — the true figure-8 cross-section
+      for(let loop=0;loop<2;loop++){
+        const sign=loop===0?1:-1;
+        for(let is=0;is<=NS;is++){
+          const sigma=(is/NS)*Math.PI*2;
+          const dr=0.06*blend*Math.sin(sigma*2+wTime*2.5+it*0.3);
+          pts.push(new THREE.Vector3(sign*cx+Math.cos(sigma)*r*(1+dr),y,Math.sin(sigma)*r*(1+dr)));
+        }
+      }
+      const g=new THREE.BufferGeometry().setFromPoints(pts);
+      const m=new THREE.LineBasicMaterial({color:col3,transparent:true,opacity:it%2===0?0.50:0.15});
+      const l=new THREE.Line(g,m);pivot3.add(l);wObjects3.push(l);
+    }
+
+    // ── Phase C: two outgoing tubes, radius grows 0.35→0.65 ──
+    const PC=16;
+    [-1,1].forEach((sign,si)=>{
+      for(let it=0;it<=PC;it++){
+        const t=it/PC;
+        const y=-0.3-t*2.2;                        // y: -0.3 → -2.5
+        const cx=sign*(SEP/2+t*0.35);              // tubes drift further apart
+        const R=0.35+t*0.30;                        // R: 0.35 → 0.65
+        const dr=0.14*t*Math.sin(2+wTime*2.4+t+si*1.4);
+        const pts=[];
+        for(let is=0;is<=NS;is++){const sigma=(is/NS)*Math.PI*2;pts.push(new THREE.Vector3(cx+Math.cos(sigma)*R*(1+dr),y,Math.sin(sigma)*R*(1+dr)));}
+        const g=new THREE.BufferGeometry().setFromPoints(pts);
+        const bright=(it===PC||it%4===0);
+        const m=new THREE.LineBasicMaterial({color:col3,transparent:true,opacity:bright?0.45:0.11});
+        const l=new THREE.Line(g,m);pivot3.add(l);wObjects3.push(l);
+      }
+    });
+
+    // ── Bright rim rings at the three open ends (no extra sphere = no fake vertex) ──
+    addRing(0,2.5,0,0.87,0xffffff,0.85);                           // top opening
+    addRing(-SEP/2-0.35,-2.5,0,0.65,0xffffff,0.80);               // bottom-left
+    addRing( SEP/2+0.35,-2.5,0,0.65,0xffffff,0.80);               // bottom-right
+
+    // Saddle highlight ring at the pinch point
+    addRing(0,0,0,0.30,0xffcc88,0.55);
+    // Pulsing glow sphere at the split point — visual marker for the smooth saddle
+    const sg=new THREE.SphereGeometry(.13,12,12);
+    const sm=new THREE.MeshBasicMaterial({color:0xffcc88,transparent:true,opacity:0.55+0.35*Math.sin(wTime*4)});
+    const sp=new THREE.Mesh(sg,sm);sp.position.set(0,0,0);
+    pivot3.add(sp);wObjects3.push(sp);
+
+    // ── Axis labels: τ beside the top of the Y axis, σ below ──
+    const tauLbl=makeTextLabel('τ  (proper time)','↑  vertical axis');
+    tauLbl.position.set(1.6,2.5,0);pivot3.add(tauLbl);wObjects3.push(tauLbl);
+    const sigLbl=makeTextLabel('σ  (string coord)','⟳  periodic  0…2π');
+    sigLbl.position.set(0,-3.2,0);pivot3.add(sigLbl);wObjects3.push(sigLbl);
   }
 }
 
@@ -3160,7 +3445,7 @@ xcanvas.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;drag6=t
 addEventListener('mousemove',e=>{if(!drag6)return;rotY6+=(e.clientX-px6)*.004;rotX6+=(e.clientY-py6)*.004;px6=e.clientX;py6=e.clientY;});
 addEventListener('mouseup',()=>drag6=false);
 let xTime=0,xMode='cy',xObjects=[];
-const XDATA={cy:{type:'CALABI-YAU MANIFOLD',dim:'6 real / 3 complex dims',r:'~10⁻³⁵ m (Planck scale)',sub:'6 DIMENSIONS COMPACTIFIED AT EVERY SPACETIME POINT · CALABI-YAU MANIFOLD',note:'The 6 extra dimensions in string theory must form a Calabi-Yau manifold — complex, Kähler, Ricci-flat. Its topology determines the gauge group and number of particle generations.'},torus:{type:'TORUS T⁶ = (S¹)⁶',dim:'6 compact circles',r:'R_c (adjustable)',sub:'SIMPLEST COMPACTIFICATION · SIX CIRCLES · T-DUALITY ACTS ON EACH',note:'The simplest compactification: six circles. T-duality relates winding around one circle to momentum on the dual circle with radius α\'/R.'},circle:{type:'CIRCLE S¹ (T-DUALITY)',dim:'1 extra dimension shown',r:'R vs α\'/R dual',sub:'T-DUALITY · STRING ON RADIUS R ≡ STRING ON RADIUS α\'/R',note:'T-duality: a string on a circle of radius R is equivalent to a string on radius α\'/R with wound and momentum modes exchanged. This is a purely stringy symmetry — no analogue in field theory.'}};
+const XDATA={cy:{type:'CALABI-YAU MANIFOLD',dim:'6 real / 3 complex dims',r:'~10⁻³⁵ m (Planck scale)',sub:'6 DIMENSIONS COMPACTIFIED AT EVERY SPACETIME POINT · CALABI-YAU MANIFOLD',note:'The 6 extra dimensions in string theory form a Calabi-Yau 3-fold — complex, Kähler, Ricci-flat. Its Hodge numbers (h¹¹, h²¹) determine the number of moduli and matter generations; the gauge bundle/holonomy determines the 4D gauge group.'},torus:{type:'TORUS T⁶ = (S¹)⁶',dim:'6 compact circles (3×T²)',r:'R_c (adjustable)',sub:'SIMPLEST COMPACTIFICATION · SIX CIRCLES · T-DUALITY ACTS ON EACH',note:'T⁶ = T²×T²×T² — three 2-tori, each encoding two compact circles. T-duality on each circle relates winding modes to momentum modes on the dual circle with radius α\'/R.'},circle:{type:'CIRCLE S¹ (T-DUALITY)',dim:'1 extra dimension shown',r:'R vs α\'/R dual',sub:'T-DUALITY · STRING ON RADIUS R ≡ STRING ON RADIUS α\'/R',note:'T-duality: a string on a circle of radius R is equivalent to a string on radius α\'/R with wound and momentum modes exchanged. This is a purely stringy symmetry — no analogue in field theory.'}};
 function setXMode(m){xMode=m;xTime=0;document.querySelectorAll('.xbtn').forEach(b=>b.classList.toggle('active',b.dataset.xa===m));const d=XDATA[m];document.getElementById('xi-type').textContent=d.type;document.getElementById('xi-dim').textContent=d.dim;document.getElementById('xi-r').textContent=d.r;document.getElementById('xi-note').textContent=d.note;const sub=document.getElementById('xtitle-sub');if(sub)sub.textContent=d.sub;}
 setXMode('cy');
 document.querySelectorAll('.xbtn').forEach(b=>b.addEventListener('click',()=>setXMode(b.dataset.xa)));
@@ -3198,9 +3483,10 @@ function buildExtraDim(){
           const y2=y*Math.cos(rx)-z*Math.sin(rx);
           const z2=y*Math.sin(rx)+z*Math.cos(rx);
           const x3=x2*Math.cos(ry)+z2*Math.sin(ry);
-          const y3=y2*Math.cos(rz)-x3*Math.sin(rz);
           const z3=-x2*Math.sin(ry)+z2*Math.cos(ry);
-          row.push(new THREE.Vector3(y2*Math.sin(rz)+x3*Math.cos(rz),y3,z3));
+          const xf=x3*Math.cos(rz)-y2*Math.sin(rz);
+          const yf=x3*Math.sin(rz)+y2*Math.cos(rz);
+          row.push(new THREE.Vector3(xf,yf,z3));
         }
         addLine6(row,lv.col,lv.op);
       }
@@ -3253,6 +3539,11 @@ function buildExtraDim(){
         addLine6(pts,cfg.col,cfg.op*(ui%8===0?1:0.15));
       }
     });
+    // Labels for each T2 factor
+    function addT6Sprite(text,pos,col){const fs=11;const c=document.createElement('canvas');const ctx=c.getContext('2d');ctx.font=`bold ${fs}px "Share Tech Mono",monospace`;const tw=ctx.measureText(text).width;const pad=10;c.width=Math.ceil(tw+pad*2);c.height=24;ctx.font=`bold ${fs}px "Share Tech Mono",monospace`;ctx.fillStyle=col;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,c.width/2,c.height/2);const tex=new THREE.CanvasTexture(c);tex.needsUpdate=true;const mat=new THREE.SpriteMaterial({map:tex,transparent:true,opacity:.9,depthWrite:false});const s=new THREE.Sprite(mat);const sc=c.width/90;s.scale.set(sc,sc*(c.height/c.width),1);s.position.copy(pos);pivot6.add(s);xObjects.push(s);}
+    addT6Sprite('T² (xy-plane)',new THREE.Vector3(0,-(2.2+0.6+0.4),0),'#ff8c42');
+    addT6Sprite('T² (xz-plane)',new THREE.Vector3(0,-(1.6+0.45+0.4),0),'#ff6a1a');
+    addT6Sprite('T² (yz-plane)',new THREE.Vector3(1.3+0.35+0.5,0,0),'#ffcc00');
 
   } else {
     // T-duality: two circles, R and α'/R, with a string wound around one
@@ -3269,7 +3560,7 @@ function buildExtraDim(){
     // Wound string on circle 1
     const windPts=[];
     for(let i=0;i<=120;i++){const u=i/120;const a=u*Math.PI*2*2; // winding number 2
-    windPts.push(new THREE.Vector3(-2.5+R1*Math.cos(a),(R1+0.15)*Math.sin(a),0.2*Math.cos(a*3+xTime*2)));}
+    windPts.push(new THREE.Vector3(-2.5+R1*Math.cos(a),R1*Math.sin(a),0.25*Math.cos(a*1.5+xTime*2)));}
     addLine6(windPts,0xffcc00,0.9);
     // Momentum mode on circle 2
     const momPts=[];
@@ -3340,8 +3631,8 @@ function addDMesh(geo,color,opacity,wire=false){const mat=wire?new THREE.MeshBas
 
 const DDATA={
   d2:{type:'D2-BRANE (2+1 DIM)',dim:'p=2 spatial dimensions',charge:'RR 3-form charge',note:'A D2-brane is a 2-dimensional dynamical object. Open strings end on it with Dirichlet boundary conditions in the transverse directions. Its tension is T₂ = 1/(g_s l_s³).'},
-  d1:{type:'D1-BRANE (FUNDAMENTAL STRING)',dim:'p=1 spatial dimension',charge:'RR 2-form charge',note:'A D1-brane is S-dual to the fundamental string in Type IIB. Two parallel D1-branes attract — open strings between them become light when they are coincident.'},
-  stack:{type:'N COINCIDENT D3-BRANES',dim:'p=3, N-fold stack',charge:'N units of RR charge',note:'N coincident Dp-branes host a U(N) gauge theory on their worldvolume. Taking N→∞ and g_s→0 with fixed g_s·N leads to the AdS/CFT correspondence.'},
+  d1:{type:'D1-BRANE (S-DUAL TO F-STRING)',dim:'p=1 spatial dimension',charge:'RR 2-form charge',note:'A D1-brane (D-string) is S-dual to the fundamental F-string in Type IIB — distinct objects related by g_s → 1/g_s. Two parallel D1-branes attract and open strings stretching between them become massless when the branes coincide.'},
+  stack:{type:'N COINCIDENT D2-BRANES',dim:'p=2, N-fold stack',charge:'N units of RR 3-form charge',note:'N coincident D2-branes host a U(N) gauge theory on their worldvolume. Open strings stretching between branes become massless when branes coincide. In M-theory, N D2-branes lift to N M2-branes, leading to the ABJM duality: AdS₄ × S⁷/ℤₖ ↔ U(N)ₖ × U(N)₋ₖ Chern-Simons theory.'},
 };
 function setDMode(m){
   dMode=m;dTime=0;braneOffsetY=0;braneTargetY=0;
@@ -3384,36 +3675,36 @@ function buildDbranes(){
       pos2.setY(vi,0.22*Math.sin(x*1.8+dTime*2.2)*Math.cos(z*1.5+dTime*1.7));
     }
     pos2.needsUpdate=true;
-    // Open strings — endpoints glued to brane
+    // Open strings — BOTH endpoints pinned to brane (Dirichlet BC on both sides)
+    // In string theory on a single D-brane, both ends are on the same brane.
     const nStrings=7;
     for(let si=0;si<nStrings;si++){
       const angle=(si/nStrings)*Math.PI*2;
-      const endX=Math.cos(angle)*1.6,endZ=Math.sin(angle)*1.6;
+      const r1=0.5+0.3*Math.sin(si*1.3),r2=1.6;
+      // Both endpoints on brane surface
+      const endX=Math.cos(angle)*r2,endZ=Math.sin(angle)*r2;
+      const startX=Math.cos(angle+0.8+si*0.2)*r1,startZ=Math.sin(angle+0.8+si*0.2)*r1;
       const endY=bY+0.22*Math.sin(endX*1.8+dTime*2.2)*Math.cos(endZ*1.5+dTime*1.7);
-      const startX=endX+0.5*Math.sin(si+dTime*0.7);
-      const startZ=endZ+0.5*Math.cos(si+dTime*0.8);
-      const startY=endY+2.2+0.4*Math.sin(dTime*1.5+si*0.9);
+      const startY=bY+0.22*Math.sin(startX*1.8+dTime*2.2)*Math.cos(startZ*1.5+dTime*1.7);
       const pts=[];
-      for(let k=0;k<=24;k++){
-        const u=k/24;
+      for(let k=0;k<=28;k++){
+        const u=k/28;
         const bX=startX+(endX-startX)*u;
         const bZ=startZ+(endZ-startZ)*u;
-        const bYv=startY+(endY-startY)*u+0.4*Math.sin(u*Math.PI)*Math.sin(dTime*3+si);
+        // String arcs UP off the brane surface between its two pinned endpoints
+        const arcH=1.4*Math.sin(u*Math.PI)*(0.8+0.4*Math.sin(dTime*2.2+si));
+        const bYv=startY+(endY-startY)*u+arcH;
         pts.push(new THREE.Vector3(bX,bYv,bZ));
       }
       addDLine(pts,0xff6600,0.75);
-      // Endpoint blobs on brane
-      const ep=new THREE.SphereGeometry(0.08,8,8);
-      const epm=new THREE.MeshBasicMaterial({color:0xffcc00,transparent:true,opacity:.9});
-      const eps=new THREE.Mesh(ep,epm);
-      eps.position.set(endX,endY,endZ);
-      pivot7.add(eps);dObjects7.push(eps);
-      // Free end glow
-      const fp=new THREE.SphereGeometry(0.07,8,8);
-      const fpm=new THREE.MeshBasicMaterial({color:0xff4400,transparent:true,opacity:.7});
-      const fps=new THREE.Mesh(fp,fpm);
-      fps.position.set(startX,startY,startZ);
-      pivot7.add(fps);dObjects7.push(fps);
+      // Both endpoint blobs on brane
+      [{ x:endX,y:endY,z:endZ },{ x:startX,y:startY,z:startZ }].forEach(ep=>{
+        const eg=new THREE.SphereGeometry(0.08,8,8);
+        const em=new THREE.MeshBasicMaterial({color:0xffcc00,transparent:true,opacity:.9});
+        const es=new THREE.Mesh(eg,em);
+        es.position.set(ep.x,ep.y,ep.z);
+        pivot7.add(es);dObjects7.push(es);
+      });
     }
 
   } else if(dMode==='d1'){
@@ -3425,12 +3716,12 @@ function buildDbranes(){
       pts1.push(new THREE.Vector3(u*3.5,bY+wave,0));
     }
     addDLine(pts1,0xff9900,0.9);
-    // Halo glow lines
+    // Halo glow lines — same plane as brane, offset in Y only for glow effect
     for(let g=1;g<=3;g++){
-      const gpts=pts1.map(p=>new THREE.Vector3(p.x,p.y,g*0.08));
+      const gpts=pts1.map(p=>new THREE.Vector3(p.x,p.y+g*0.04,0));
       addDLine(gpts,0xff9900,0.1/g);
     }
-    // Open strings perpendicular to D1
+    // Open strings perpendicular to D1 — endpoints STAY ON the D1 line
     const nStr=8;
     for(let si=0;si<nStr;si++){
       const u=(si/(nStr-1))*2-1;
@@ -3441,6 +3732,7 @@ function buildDbranes(){
       const pts=[];
       for(let k=0;k<=20;k++){
         const t2=k/20;
+        // Endpoint (t2=0) stays exactly at (ex,ey,0) on the D1-brane
         pts.push(new THREE.Vector3(
           ex+0.3*Math.sin(t2*Math.PI)*Math.cos(dTime*2+si),
           ey+length*t2*Math.cos(ang),
@@ -3448,6 +3740,7 @@ function buildDbranes(){
         ));
       }
       addDLine(pts,0xff6600,0.7);
+      // Endpoint dot placed exactly at brane position
       const ep2=new THREE.SphereGeometry(0.07,8,8);
       const ep2m=new THREE.MeshBasicMaterial({color:0xffcc00,transparent:true,opacity:.9});
       const ep2s=new THREE.Mesh(ep2,ep2m);
@@ -3455,7 +3748,7 @@ function buildDbranes(){
     }
 
   } else {
-    // Brane stack: N=4 parallel D3-branes shown as sheets
+    // Brane stack: N=4 parallel D2-branes shown as sheets
     const N=4,sep=1.0;
     for(let bi=0;bi<N;bi++){
       const by=bY+(bi-(N-1)/2)*sep;
@@ -3488,16 +3781,20 @@ function buildDbranes(){
         }
       }
     }
-    // Gauge field arrows on top brane indicating U(N) gauge symmetry
-    const topY=bY+((N-1)/2)*sep;
-    for(let ai=0;ai<6;ai++){
-      const angle=(ai/6)*Math.PI*2+dTime*0.3;
-      const r1=0.6,r2=1.4;
-      const arPts=[
-        new THREE.Vector3(Math.cos(angle)*r1,topY+0.05,Math.sin(angle)*r1),
-        new THREE.Vector3(Math.cos(angle)*r2,topY+0.05,Math.sin(angle)*r2),
-      ];
-      addDLine(arPts,0xffcc00,0.7);
+    // Gauge field lines on ALL N branes — tangential (in-plane) to show worldvolume U(N) gauge field
+    for(let bi=0;bi<N;bi++){
+      const byGauge=bY+(bi-(N-1)/2)*sep;
+      for(let ai=0;ai<6;ai++){
+        const angle=(ai/6)*Math.PI*2+dTime*0.3+bi*0.2;
+        const r=1.0;
+        // Tangential arc segment — gauge field lives on brane worldvolume
+        const arcPts=[];
+        for(let k=0;k<=8;k++){
+          const a2=angle+k*0.18;
+          arcPts.push(new THREE.Vector3(Math.cos(a2)*r,byGauge,Math.sin(a2)*r));
+        }
+        addDLine(arcPts,0xffcc00,0.35+bi*0.1);
+      }
     }
   }
 }
@@ -3787,10 +4084,10 @@ addEventListener('mouseup',()=>drag9=false);
 let sTime9=0,sMode9='typeI',sObjects9=[];
 
 const SDATA9={
-  typeI:{name:'TYPE I',strings:'OPEN + CLOSED',susy:'N=1 (16 supercharges)',gauge:'SO(32)',note:'Type I has both open and closed unoriented strings. The SO(32) gauge group cancels anomalies. S-dual to Het SO(32). Contains D1, D5, D9-branes.'},
-  typeIIA:{name:'TYPE IIA',strings:'CLOSED (non-chiral)',susy:'N=2 (32 supercharges)',gauge:'U(1)',note:'Non-chiral closed string theory. Has Dp-branes for p even: D0, D2, D4, D6, D8. Compactified on S¹ it becomes M-theory — the 11th dimension opens up at strong coupling.'},
-  typeIIB:{name:'TYPE IIB',strings:'CLOSED (chiral)',susy:'N=2 (32 supercharges)',gauge:'SL(2,ℤ)',note:'Chiral closed string theory with SL(2,ℤ) S-duality. Has D(−1), D1, D3, D5, D7-branes. D3-branes give N=4 SYM — the foundation of AdS/CFT.'},
-  hetE:{name:'HET E₈×E₈',strings:'CLOSED (heterotic)',susy:'N=1 (16 supercharges)',gauge:'E₈×E₈',note:'Left-movers are bosonic (26D), right-movers are superstring (10D). The 16 extra left-mover dimensions encode the E₈×E₈ gauge group. Compactified on CY₃ gives realistic 4D models.'},
+  typeI:{name:'TYPE I',strings:'OPEN + CLOSED (unoriented)',susy:'N=1 (16 supercharges)',gauge:'SO(32)',note:'Type I has both open and closed unoriented strings. The SO(32) gauge group is required for anomaly cancellation (Green-Schwarz mechanism). S-dual to Het SO(32). Contains D1, D5, D9-branes.'},
+  typeIIA:{name:'TYPE IIA',strings:'CLOSED (non-chiral)',susy:'N=2 (32 supercharges)',gauge:'none (RR: C₁, C₃)',note:'Non-chiral closed string theory. Has Dp-branes for p even: D0, D2, D4, D6, D8. Compactified on S¹ it becomes M-theory — the 11th dimension opens up at strong coupling.'},
+  typeIIB:{name:'TYPE IIB',strings:'CLOSED (chiral)',susy:'N=2 (32 supercharges)',gauge:'none (SL(2,ℤ) S-duality)',note:'Chiral closed string theory with SL(2,ℤ) S-duality symmetry. Has D(−1), D1, D3, D5, D7-branes. D3-branes give N=4 SYM — the foundation of AdS/CFT.'},
+  hetE:{name:'HET E₈×E₈',strings:'CLOSED (heterotic)',susy:'N=1 (16 supercharges)',gauge:'E₈×E₈',note:'Left-movers are bosonic (26D), right-movers are superstring (10D). The 16 extra left-mover bosons are compactified on the E₈×E₈ root lattice (even self-dual), generating the gauge group. Compactified on CY₃ gives realistic 4D models.'},
   hetO:{name:'HET SO(32)',strings:'CLOSED (heterotic)',susy:'N=1 (16 supercharges)',gauge:'SO(32)',note:'S-dual to Type I. Same left/right-mover asymmetry trick as Het E₈. Both heterotic theories are related by T-duality on a circle.'},
 };
 
@@ -3863,8 +4160,7 @@ function buildSuperstring(){
     // Open strings (several, with endpoints) + 1 closed string
     const openPositions=[[-3,-1.5,0],[-3,0,0],[-3,1.5,0]];
     openPositions.forEach(([x,y,z],i)=>{makeStringCurve9(x,y,z,6,3,.45,col,.85,t,false);});
-    // Closed string in center-right
-    makeStringCurve9(2,0,0,0,4,.8,0xffffff,.6,t,true);
+    // Closed string loop at x=3.5
     const cpts=[];for(let i=0;i<=80;i++){const u=i/80;const a=u*Math.PI*2;const R=1.1;const dr=.3*(Math.cos(a*2+t*2)*.6+Math.sin(a+t*1.7)*.4);cpts.push(new THREE.Vector3(3.5+R*(1+dr)*Math.cos(a),R*(1+dr)*Math.sin(a),.25*Math.sin(a*3+t*2.5)));}
     addSLine9(cpts,0xffffff,.65);
     addSSprite9('OPEN STRINGS (SO(32))',new THREE.Vector3(-1,-2.5,0),'#ff44cc');
@@ -3898,12 +4194,12 @@ function buildSuperstring(){
     // SUSY partners
     makeSUSYPair9(-1.5,-2,0,3,col,col2,t,0);
     addSSprite9(chiral?'LEFT MOVER (CHIRAL)':'LEFT MOVER',new THREE.Vector3(-2.5,-2.2,0),`#${col.toString(16).padStart(6,'0')}`);
-    addSSprite9(chiral?'RIGHT MOVER (CHIRAL)':'RIGHT MOVER',new THREE.Vector3(2.5,-2.2,0),'#ffaa00');
+    addSSprite9(chiral?'RIGHT MOVER (CHIRAL)':'RIGHT MOVER (OPP. CHIRALITY)',new THREE.Vector3(2.5,-2.2,0),`#${col2.toString(16).padStart(6,'0')}`);
 
   } else {
     // Heterotic: left=bosonic (26D) + right=superstring (10D) — shown as mismatched rings
     const isE8=sMode9==='hetE';
-    const col2=isE8?0x44ddff:0xaa88ff;
+    const col2=isE8?0x88ff44:0xaa88ff;
     // Left mover (bosonic, 26D, larger oscillation space)
     for(let li=0;li<4;li++){
       const pts=[];const R=1.4;const phase=li*Math.PI/2;
@@ -3932,8 +4228,8 @@ function buildSuperstring(){
       ];
       addSLine9(gpts,0xffffff,.3);
     }
-    addSSprite9(isE8?'E₈×E₈ GAUGE BOSONS':'SO(32) GAUGE BOSONS',new THREE.Vector3(-2.2,-2.3,0),'#44ddff');
-    addSSprite9('SUPERSTRING (RIGHT)',new THREE.Vector3(2.5,-2.3,0),'#aa88ff');
+    addSSprite9(isE8?'E₈×E₈ GAUGE BOSONS':'SO(32) GAUGE BOSONS',new THREE.Vector3(-2.2,-2.3,0),`#${col.toString(16).padStart(6,'0')}`);
+    addSSprite9('SUPERSTRING (RIGHT)',new THREE.Vector3(2.5,-2.3,0),`#${col2.toString(16).padStart(6,'0')}`);
     // SUSY pair overlay
     makeSUSYPair9(-1.2,1.8,0,2.4,col,col2,t,1);
   }
@@ -4152,9 +4448,9 @@ addEventListener('mouseup',()=>drag11=false);
 let mTime11=0,mMode11='web',mObjects11=[];
 
 const MDATA11={
-  web:{dim:'11 DIMENSIONS',obj:'M2, M5 BRANES + GRAVITON',limit:'g_s→0: SUPERSTRINGS',note:'M-theory is the unique 11D theory whose low-energy limit is 11D supergravity. All 5 superstring theories are limiting cases of M-theory, connected by dualities.'},
-  m2:{dim:'11 DIMENSIONS',obj:'M2-BRANE (2+1D WORLDVOLUME)',limit:'Reduce on S¹ → D2 or F1',note:'The M2-brane is a fundamental 2+1 dimensional object. Wrapping it on the 11th circle gives a Type IIA D2-brane. Unwrapped, it becomes the fundamental string F1 in the limit.'},
-  limits:{dim:'10D LIMITS OF M-THEORY',obj:'5 SUPERSTRING THEORIES',limit:'WEAK COUPLING g_s→0',note:'Compactify M-theory on S¹: get Type IIA. Compactify on S¹/ℤ₂: get Het E₈×E₈. Various dualities then connect to Type IIB, Type I, and Het SO(32).'},
+  web:{dim:'11 DIMENSIONS',obj:'M2-BRANE, M5-BRANE, GRAVITON',limit:'R₁₁→0: TYPE IIA LIMIT',note:'M-theory is the unique 11D theory whose low-energy limit is 11D supergravity. All 5 superstring theories are limiting cases: compactify on S¹→IIA, on S¹/ℤ₂→Het E₈, then dualities connect the rest.'},
+  m2:{dim:'11 DIMENSIONS',obj:'M2-BRANE (2+1D WORLDVOLUME)',limit:'Wrapped on S¹→F1 · Transverse→D2',note:'The M2-brane is a fundamental 2+1 dimensional object. Wrapping it on the compact 11th circle (S¹) gives the Type IIA fundamental string F1. Left unwrapped (transverse to S¹), it reduces to a Type IIA D2-brane.'},
+  limits:{dim:'10D LIMITS OF M-THEORY',obj:'5 SUPERSTRING THEORIES',limit:'R₁₁→0 (small 11th dim)',note:'M on S¹→IIA; M on S¹/ℤ₂→Het E₈. Then: IIA↔IIB via T-duality on S¹; Het E₈↔Het SO(32) via T-duality; Het SO(32)↔Type I via S-duality; Type I↔IIB via orientifold.'},
 };
 
 function setMMode11(m){
@@ -4201,14 +4497,14 @@ const MWEB_NODES=[
   {label:'M-THEORY',pos:[0,0,0],col:0xaa88ff,r:.25},
   {label:'TYPE IIA',pos:[-2.2,1.2,0],col:0xff6a1a,r:.16},
   {label:'TYPE IIB',pos:[2.2,1.2,0],col:0xffcc00,r:.16},
-  {label:'HET E₈',pos:[-2.5,-1.4,0],col:0x44ddff,r:.16},
+  {label:'HET E₈×E₈',pos:[-2.5,-1.4,0],col:0x44ddff,r:.16},
   {label:'HET SO(32)',pos:[0,-2.6,0],col:0x88ffaa,r:.16},
   {label:'TYPE I',pos:[2.5,-1.4,0],col:0xff44cc,r:.16},
 ];
 const MWEB_EDGES=[
-  [0,1,'S¹'],[0,2,'T'],[0,3,'S¹/ℤ₂'],
-  [1,2,'T-dual'],[1,3,'T-dual'],[2,5,'S-dual'],
-  [3,4,'T-dual'],[4,5,'T-dual'],[1,5,''],
+  [0,1,'S¹'],[0,3,'S¹/ℤ₂'],
+  [1,2,'T-dual'],[2,5,'S-dual'],
+  [3,4,'T-dual'],[4,5,'S-dual'],
 ];
 
 function buildMTheory(){
@@ -4230,6 +4526,13 @@ function buildMTheory(){
         pts.push(mid);
       }
       addMLine11(pts,0xffffff,.22);
+      // Draw edge label at midpoint
+      if(label){
+        const mx=(na.pos[0]+nb.pos[0])/2;
+        const my=(na.pos[1]+nb.pos[1])/2+0.22;
+        const mz=(na.pos[2]+nb.pos[2])/2;
+        addMSprite11(label,new THREE.Vector3(mx,my,mz),'rgba(255,220,180,0.85)');
+      }
     });
 
     // Draw nodes
@@ -4291,8 +4594,6 @@ function buildMTheory(){
 
   } else {
     // String limits: 5 theory icons arranged around M-theory center
-    // Show compactification dimension as shrinking/growing circle
-    const couplings=['g_s→0','T-dual','S-dual','Compactify S¹','Compactify S¹/ℤ₂'];
     MWEB_NODES.forEach((node,ni)=>{
       if(ni===0){
         // M-theory: rotating 11D sphere
