@@ -546,7 +546,7 @@ canvas{display:block;width:100%;height:100%;}
 }
 #fbtns{
   position:fixed;
-  bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+  bottom:calc(80px + env(safe-area-inset-bottom, 0px));
   left:50%;transform:translateX(-50%);
   z-index:25;pointer-events:all;
 }
@@ -560,9 +560,11 @@ canvas{display:block;width:100%;height:100%;}
   border:1px solid rgba(255,69,0,.16);
   backdrop-filter:blur(16px);
   box-shadow:0 4px 28px rgba(0,0,0,.6);
-  pointer-events:none;
+  pointer-events:all;
 }
 #finfo .fv{color:var(--primary);font-weight:bold;text-shadow:0 0 8px rgba(255,69,0,.6);}
+.desk-close-btn{pointer-events:all !important;cursor:pointer;}
+#finfo.desk-hidden{display:none !important;}
 
 /* ══════════════════════════════════════════════
    MODE 5 — ENERGY LEVELS
@@ -737,18 +739,22 @@ canvas{display:block;width:100%;height:100%;}
   /* ainfo: compact bar at bottom on mobile */
   #ainfo{
     position:fixed;
-    bottom:calc(72px + env(safe-area-inset-bottom,0px));
+    bottom:calc(var(--chrome) + var(--gap)*2);
     right:10px;left:10px;
     top:auto;transform:none;
     max-width:none;text-align:center;
     font-size:7.5px;padding:7px 12px;
     display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
     line-height:1.65;border-radius:12px;z-index:50;
-    opacity:1 !important;pointer-events:none;
+    opacity:1 !important;pointer-events:all;
+  }
+  /* On mobile, hide desktop close btn — mob-close-btn handles it */
+  .desk-close-btn{
+    display:none !important;
   }
   /* ads bottom stack: sits just above zoom pill */
   #ads-bottom-stack{
-    bottom:calc(16px + env(safe-area-inset-bottom,0px));
+    bottom:calc(var(--btn-zone) + var(--gap) + var(--safe-bot));
   }
 }
 
@@ -935,7 +941,7 @@ canvas{touch-action:none;}
 
   /* ── Bottom btn rows: bigger, vivid borders ── */
   .btn-row{
-    bottom:80px;
+    bottom:90px;
     padding:8px 10px;
     gap:8px;
     border-radius:18px;
@@ -1076,7 +1082,7 @@ canvas{touch-action:none;}
     font-size:var(--panel-font);
     line-height:var(--panel-lh);
     max-width:var(--panel-w);
-    top:calc(var(--tab-h) + 80px);
+    top:calc(var(--tab-h) + 150px);
     right:26px;
     padding:22px 24px;
     border-radius:18px;
@@ -1102,7 +1108,7 @@ canvas{touch-action:none;}
     background:rgba(255,60,0,.08);
   }
   #dbrane-bottom-stack{
-    bottom:80px;
+    bottom:90px;
     gap:10px;
   }
 
@@ -1129,7 +1135,7 @@ canvas{touch-action:none;}
   #ainfo::-webkit-scrollbar{display:none;}
   /* ── AdS/CFT bottom stack: desktop ── */
   #ads-bottom-stack{
-    bottom:80px;
+    bottom:90px;
   }
   #ainfo .av{
     color:#ff6644;
@@ -1155,7 +1161,7 @@ canvas{touch-action:none;}
     letter-spacing:.18em;
     padding:10px 24px;
     border-radius:12px;
-    bottom:130px;
+    bottom:140px;
     border:1px solid rgba(255,170,0,.45);
     background:rgba(255,120,0,.1);
     color:var(--gold);
@@ -1193,14 +1199,78 @@ canvas{touch-action:none;}
   #infopanel-toggle,
   .side-panel-toggle{display:none !important;}
 
-  /* ── Side panels always visible on desktop ── */
+  /* ── Desktop close (✕) button on info panels ── */
+  .desk-close-btn{
+    position:absolute;
+    top:8px;
+    font-size:13px;
+    cursor:pointer;
+    color:rgba(255,110,26,.7);
+    font-family:monospace;
+    line-height:1;
+    padding:3px 6px;
+    z-index:300;
+    border-radius:4px;
+    transition:color .15s, background .15s;
+    pointer-events:all !important;
+  }
+  .desk-close-btn:hover{
+    color:rgba(255,150,60,1);
+    background:rgba(255,69,0,.12);
+  }
+  .side-panel.right .desk-close-btn{ left:8px; }
+  .side-panel.left  .desk-close-btn{ right:8px; left:auto; }
+  #infopanel         .desk-close-btn{ left:8px; }
+
+  /* ── Reopen tab that appears on the panel edge after closing ── */
+  .desk-reopen-btn{
+    position:fixed;
+    z-index:60;
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    font-family:'Share Tech Mono',monospace;
+    font-size:9px;
+    letter-spacing:.18em;
+    color:rgba(255,130,50,.8);
+    background:rgba(6,1,0,.82);
+    border:1px solid rgba(255,69,0,.25);
+    backdrop-filter:blur(10px);
+    border-radius:8px;
+    padding:10px 5px;
+    cursor:pointer;
+    pointer-events:all !important;
+    display:none;
+    top:50%;
+    transform:translateY(-50%);
+    transition:color .15s, border-color .15s, background .15s;
+    box-shadow:0 2px 14px rgba(0,0,0,.5);
+  }
+  .desk-reopen-btn:hover{
+    color:rgba(255,180,80,1);
+    border-color:rgba(255,120,40,.55);
+    background:rgba(10,2,0,.92);
+  }
+  .desk-reopen-btn.right-edge{ right:0; border-right:none; border-radius:8px 0 0 8px; }
+  .desk-reopen-btn.left-edge { left:0;  border-left:none;  border-radius:0 8px 8px 0; }
+
+  /* ── Side panels always visible on desktop (overridden when desk-hidden) ── */
   .side-panel{
     opacity:1 !important;
     pointer-events:none;
   }
+  .side-panel.desk-hidden{
+    opacity:0 !important;
+    pointer-events:none !important;
+    visibility:hidden;
+  }
   #infopanel{
     opacity:1 !important;
     pointer-events:none;
+  }
+  #infopanel.desk-hidden{
+    opacity:0 !important;
+    pointer-events:none !important;
+    visibility:hidden;
   }
 
   /* ── Superstring / Landscape / M-Theory side panels ── */
@@ -1660,7 +1730,7 @@ canvas{touch-action:none;}
     z-index:50;
     /* Feynman finfo is always visible — no toggle needed */
     opacity:1 !important;
-    pointer-events:none;
+    pointer-events:all;
   }
   /* Kill desktop #fbtns own position so .btn-row styles take over */
   #fbtns{
@@ -2284,6 +2354,14 @@ function switchMode(key){
   Object.entries(modeEls).forEach(([k,el])=>el.classList.toggle('active',k===key));
   updateZoomLabel();
   if(typeof window._updateMobToggleVisibility==='function') window._updateMobToggleVisibility(key);
+  // Hide all reopen buttons when switching tabs; only show if panel is hidden AND we're on its mode
+  document.querySelectorAll('.desk-reopen-btn').forEach(btn=>{
+    const btnMode=btn.dataset.mode;
+    if(btnMode!==key){ btn.style.display='none'; return; }
+    const panelId=btn._panelId;
+    const panel=panelId?document.getElementById(panelId):null;
+    btn.style.display=(panel&&panel.classList.contains('desk-hidden'))?'block':'none';
+  });
 }
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>switchMode(tab.dataset.mode));
@@ -2300,6 +2378,9 @@ document.querySelectorAll('.tab').forEach(tab=>{
   const panelPairs=[
     {tog:'infopanel-toggle', panel:'infopanel', mode:'particles'},
   ];
+
+  // Panels always visible by default — hide/show via desk-hidden, not mob-open
+  const alwaysVisiblePanels=['finfo','ainfo'];
 
   // Create side panel toggles for modes that have them
   const sidePanelDefs=[
@@ -2341,33 +2422,76 @@ document.querySelectorAll('.tab').forEach(tab=>{
     document.body.appendChild(btn);
 
     const panelEl=document.getElementById(def.panel);
-    btn.addEventListener('click',()=>{
-      panelEl.classList.add('mob-open');
+    const isAlways=alwaysVisiblePanels.includes(def.panel);
+
+    // Show the INFO toggle button
+    function showToggle(){
+      btn.style.opacity='1';
+      btn.style.pointerEvents='all';
+    }
+    // Hide the INFO toggle button
+    function hideToggle(){
       btn.style.opacity='0';
       btn.style.pointerEvents='none';
-      // inject close btn if not already there
-      if(!panelEl.querySelector('.auto-close-btn')){
-        const x=document.createElement('div');
-        x.className='auto-close-btn';
+    }
+    // Hide the panel and show the toggle
+    function mobClose(){
+      if(isAlways){
+        panelEl.classList.add('desk-hidden');
+      } else {
+        panelEl.classList.remove('mob-open');
+      }
+      showToggle();
+    }
+    // Show the panel and hide the toggle
+    function mobOpen(){
+      if(isAlways){
+        panelEl.classList.remove('desk-hidden');
+      } else {
+        panelEl.classList.add('mob-open');
+      }
+      hideToggle();
+      // Ensure the ✕ close button inside the panel works
+      let x=panelEl.querySelector('.mob-close-btn');
+      if(!x){
+        x=document.createElement('div');
+        x.className='mob-close-btn';
         x.textContent='✕';
         const isLeft=panelEl.classList.contains('left');
-        x.style.cssText='position:absolute;top:8px;'+(isLeft?'right:8px;left:auto;':'left:8px;')+' font-size:13px;cursor:pointer;color:rgba(255,110,26,.7);font-family:monospace;line-height:1;padding:2px 5px;z-index:300;';
-        x.addEventListener('click',e=>{
-          e.stopPropagation();
-          panelEl.classList.remove('mob-open');
-          btn.style.opacity='1';
-          btn.style.pointerEvents='all';
-        });
+        x.style.cssText=
+          'position:absolute;'
+          +(isAlways
+            ? 'top:50%;right:8px;left:auto;transform:translateY(-50%);'
+            : 'top:8px;'+(isLeft?'right:8px;left:auto;':'left:8px;'))
+          +' font-size:15px;cursor:pointer;color:rgba(255,110,26,.9);'
+          +'font-family:monospace;line-height:1;padding:4px 7px;'
+          +'z-index:9999;pointer-events:all;';
         panelEl.appendChild(x);
-      } else {
-        panelEl.querySelector('.auto-close-btn').onclick=e=>{
-          e.stopPropagation();
-          panelEl.classList.remove('mob-open');
-          btn.style.opacity='1';
-          btn.style.pointerEvents='all';
-        };
       }
-    });
+      x.onclick=e=>{ e.stopPropagation(); mobClose(); };
+    }
+
+    // Store on element so desktop close btn can call it
+    panelEl._mobClose=mobClose;
+    panelEl._mobOpen=mobOpen;
+    panelEl._showToggle=showToggle;
+
+    // For always-visible panels inject the ✕ immediately (visible from the start)
+    if(isAlways){
+      const x=document.createElement('div');
+      x.className='mob-close-btn';
+      x.textContent='✕';
+      x.style.cssText=
+        'position:absolute;top:50%;right:8px;left:auto;'
+        +'transform:translateY(-50%);'
+        +'font-size:15px;cursor:pointer;color:rgba(255,110,26,.9);'
+        +'font-family:monospace;line-height:1;padding:4px 7px;'
+        +'z-index:9999;pointer-events:all;';
+      x.onclick=e=>{ e.stopPropagation(); mobClose(); };
+      panelEl.appendChild(x);
+    }
+
+    btn.addEventListener('click', mobOpen);
     panelPairs.push({togEl:btn, panel:def.panel, mode:def.mode});
   });
 
@@ -2404,6 +2528,12 @@ document.querySelectorAll('.tab').forEach(tab=>{
       btn.style.display=show?'flex':'none';
       if(show){
         const panelEl=document.getElementById(btn.dataset.target);
+        // For always-visible panels: toggle only shown when panel is hidden
+        if(alwaysVisiblePanels.includes(btn.dataset.target)){
+          const isPanelHidden=panelEl&&panelEl.classList.contains('desk-hidden');
+          btn.style.opacity=isPanelHidden?'1':'0';
+          btn.style.pointerEvents=isPanelHidden?'all':'none';
+        }
         const edge=btn.classList.contains('right-edge')?'right':'left';
         positionSideToggle(btn, panelEl, edge);
         // Position the toggle height based on panel's bottom
@@ -2474,6 +2604,88 @@ document.querySelectorAll('.tab').forEach(tab=>{
 
   // expose for tab switching
   window._updateMobToggleVisibility=updateMobToggleVisibility;
+})();
+
+
+// ═══════════════════════════════════════════════════════════
+//  DESKTOP CLOSE (✕) BUTTONS FOR ALL INFO PANELS
+// ═══════════════════════════════════════════════════════════
+(function(){
+  const isDesk=()=>innerWidth>768;
+
+  const deskPanels=[
+    {id:'infopanel',  edge:'right', mode:'particles',    label:'INFO'},
+    {id:'iinfo',      edge:'right', mode:'interactions', label:'INFO'},
+    {id:'winfo',      edge:'right', mode:'worldsheet',   label:'INFO'},
+    {id:'wleft',      edge:'left',  mode:'worldsheet',   label:'AXES'},
+    {id:'finfo',      edge:'right', mode:'feynman',      label:'INFO'},
+    {id:'xinfo',      edge:'right', mode:'extradim',     label:'INFO'},
+    {id:'dinfo',      edge:'right', mode:'dbranes',      label:'INFO'},
+    {id:'ainfo',      edge:'right', mode:'adscft',       label:'INFO'},
+    {id:'sinfo9',     edge:'right', mode:'superstring',  label:'INFO'},
+    {id:'linfo',      edge:'right', mode:'landscape',    label:'INFO'},
+    {id:'minfo11',    edge:'right', mode:'mtheory',      label:'INFO'},
+  ];
+
+  deskPanels.forEach(def=>{
+    const panel=document.getElementById(def.id);
+    if(!panel) return;
+
+    // Inject close button
+    const closeBtn=document.createElement('div');
+    closeBtn.className='desk-close-btn';
+    closeBtn.textContent='\u2715';
+    closeBtn.title='Close panel';
+    panel.appendChild(closeBtn);
+
+    // Create reopen tab on the screen edge
+    const reopen=document.createElement('div');
+    reopen.className='desk-reopen-btn '+(def.edge==='right'?'right-edge':'left-edge');
+    reopen.textContent=def.label;
+    reopen.title='Reopen panel';
+    reopen.dataset.mode=def.mode;
+    reopen._panelId=def.id;
+    document.body.appendChild(reopen);
+
+    function hidePanel(){
+      panel.classList.add('desk-hidden');
+      const tabH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tab-h'))||62;
+      reopen.style.top=(tabH+(innerHeight-tabH)/2)+'px';
+      reopen.style.display='block';
+    }
+    function showPanel(){
+      panel.classList.remove('desk-hidden');
+      reopen.style.display='none';
+      panel._deskExplicitClose=false;
+    }
+
+    closeBtn.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(innerWidth<=768){
+        if(typeof panel._mobClose==='function') panel._mobClose();
+        return;
+      }
+      panel._deskExplicitClose=true;
+      hidePanel();
+    });
+    reopen.addEventListener('click',e=>{
+      e.stopPropagation();
+      showPanel();
+    });
+
+    window.addEventListener('resize',()=>{
+      if(!isDesk()){
+        panel.classList.remove('desk-hidden');
+        reopen.style.display='none';
+      } else {
+        // re-center reopen button on resize
+        if(reopen.style.display==='block'){
+          const tabH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tab-h'))||62;
+          reopen.style.top=(tabH+(innerHeight-tabH)/2)+'px';
+        }
+      }
+    });
+  });
 })();
 
 // ═══════════════════════════════════════════════════════════
