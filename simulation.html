@@ -17,7 +17,7 @@
 /* Solid backing for every WebGL canvas: while a context is released/restored the canvas is transparent and would show the
    brightened nebula behind it (the white 'fog' flash on tab switch). */
 #canvas,#icanvas,#wcanvas,#xcanvas,#dcanvas,#scanvas9,#mcanvas11,#qcanvas,#bcanvas{background:#040100;}
-#l3canvas{position:absolute;inset:0;display:none;cursor:grab;background:#010408;}
+#l3canvas{position:absolute;inset:0;display:none;cursor:grab;background:#080100;}
 #l3canvas.on{display:block;}
 body{background:#080100;overflow:hidden;font-family:'Share Tech Mono',monospace;color:#fff;}
 
@@ -166,8 +166,8 @@ body::before{
 .tab[data-mode="extradim"]    {--tab-accent:#ff3300;}
 .tab[data-mode="dbranes"]     {--tab-accent:#ff9900;}
 .tab[data-mode="adscft"]      {--tab-accent:#ff6644;}
-.tab[data-mode="superstring"] {--tab-accent:#ff44cc;}
-.tab[data-mode="landscape"]   {--tab-accent:#44ddff;}
+.tab[data-mode="superstring"] {--tab-accent:#ff6644;}
+.tab[data-mode="landscape"]   {--tab-accent:#ffaa00;}
 .tab[data-mode="mtheory"]     {--tab-accent:#aa88ff;}
 
 .tab .tnum{
@@ -708,22 +708,22 @@ canvas{display:block;width:100%;height:100%;}
    MODE 9 — SUPERSTRINGS
 ══════════════════════════════════════════════ */
 #sui{position:fixed;inset:var(--tab-h) 0 0 0;pointer-events:none;z-index:10;}
-.sbtn9{--btn-color:#ff44cc;}
-#sinfo9 .sv9{color:#ff44cc;font-weight:bold;text-shadow:0 0 4px rgba(255,68,204,.4);}
-#sinfo9 .sh9{font-family:'Exo 2',sans-serif;font-weight:600;color:rgba(255,235,210,1);letter-spacing:.2em;font-size:7.5px;display:block;margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid rgba(255,68,204,0.65);}
-#sinfo9 .sn9{font-size:7.5px;color:rgba(255,195,155,0.98);line-height:1.85;display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,68,204,0.39);}
-#sinfo9 hr{border:none;border-top:1px solid rgba(255,68,204,0.32);margin:7px 0;}
-.tab[data-mode="superstring"]{--tab-accent:#ff44cc;}
+.sbtn9{--btn-color:#ff6644;}
+#sinfo9 .sv9{color:#ff6644;font-weight:bold;text-shadow:0 0 4px rgba(255,102,68,.4);}
+#sinfo9 .sh9{font-family:'Exo 2',sans-serif;font-weight:600;color:rgba(255,235,210,1);letter-spacing:.2em;font-size:7.5px;display:block;margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid rgba(255,102,68,0.65);}
+#sinfo9 .sn9{font-size:7.5px;color:rgba(255,195,155,0.98);line-height:1.85;display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,102,68,0.39);}
+#sinfo9 hr{border:none;border-top:1px solid rgba(255,102,68,0.32);margin:7px 0;}
+.tab[data-mode="superstring"]{--tab-accent:#ff6644;}
 
 /* ══════════════════════════════════════════════
    MODE 10 — STRING LANDSCAPE
 ══════════════════════════════════════════════ */
 #lui{position:fixed;inset:var(--tab-h) 0 0 0;pointer-events:none;z-index:10;}
-.lbtn{--btn-color:#44ddff;}
-#linfo .lv{color:#44ddff;font-weight:bold;text-shadow:0 0 4px rgba(68,221,255,.4);}
-#linfo .lh{font-family:'Exo 2',sans-serif;font-weight:600;color:rgba(255,235,210,1);letter-spacing:.2em;font-size:7.5px;display:block;margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid rgba(68,221,255,0.65);}
-#linfo .ln{font-size:7.5px;color:rgba(255,195,155,0.98);line-height:1.85;display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(68,221,255,0.39);}
-#linfo hr{border:none;border-top:1px solid rgba(68,221,255,0.32);margin:7px 0;}
+.lbtn{--btn-color:#ffaa00;}
+#linfo .lv{color:#ffaa00;font-weight:bold;text-shadow:0 0 4px rgba(255,170,0,.4);}
+#linfo .lh{font-family:'Exo 2',sans-serif;font-weight:600;color:rgba(255,235,210,1);letter-spacing:.2em;font-size:7.5px;display:block;margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid rgba(255,170,0,0.65);}
+#linfo .ln{font-size:7.5px;color:rgba(255,195,155,0.98);line-height:1.85;display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,170,0,0.39);}
+#linfo hr{border:none;border-top:1px solid rgba(255,170,0,0.32);margin:7px 0;}
 
 /* ══════════════════════════════════════════════
    MODE 11 — M-THEORY
@@ -828,7 +828,7 @@ canvas{touch-action:none;}
     --panel-w:    270px;
     --panel-font: 11.5px;
     --panel-lh:   2.1;
-    --border:     rgba(255,69,0,0.98);
+    --border:     rgba(255,69,0,0.55);
   }
 
   /* ── Tab bar: vivid neon border, scrollable ── */
@@ -1305,8 +1305,8 @@ canvas{touch-action:none;}
     border:1px solid rgba(255,69,0,0.98);
     background:rgba(4,0,0,.92);
   }
-  #sinfo9 .sv9{color:#ff44cc;text-shadow:0 0 6px rgba(255,68,204,.4);}
-  #linfo .lv{color:#44ddff;text-shadow:0 0 6px rgba(68,221,255,.4);}
+  #sinfo9 .sv9{color:#ff6644;text-shadow:0 0 6px rgba(255,102,68,.4);}
+  #linfo .lv{color:#ffaa00;text-shadow:0 0 6px rgba(255,170,0,.4);}
   #minfo11 .mv{color:#aa88ff;text-shadow:0 0 6px rgba(170,136,255,.4);}
   #sinfo9 .sh9,#linfo .lh,#minfo11 .mh{border-bottom:1px solid rgba(255,69,0,0.98);}
 
@@ -5678,7 +5678,7 @@ function makeSUSYPair9(x,y,z,len,col1,col2,t,n){
 function buildSuperstring(){
   clearS9();
   const t=sTime9;
-  const col={typeI:0xff44cc,typeIIA:0xff6a1a,typeIIB:0xffcc00,hetE:0x44ddff,hetO:0xaa88ff}[sMode9];
+  const col={typeI:0xff6644,typeIIA:0xff6a1a,typeIIB:0xffcc00,hetE:0xffaa00,hetO:0xaa88ff}[sMode9];
 
   if(sMode9==='typeI'){
     // Open strings (several, with endpoints) + 1 closed string
@@ -5687,7 +5687,7 @@ function buildSuperstring(){
     // Closed string loop at x=3.5
     const cpts=[];for(let i=0;i<=80;i++){const u=i/80;const a=u*Math.PI*2;const R=1.1;const dr=.3*(Math.cos(a*2+t*2)*.6+Math.sin(a+t*1.7)*.4);cpts.push(new THREE.Vector3(3.5+R*(1+dr)*Math.cos(a),R*(1+dr)*Math.sin(a),.25*Math.sin(a*3+t*2.5)));}
     addSLine9(cpts,0xffffff,.65);
-    addSSprite9('OPEN STRINGS (SO(32))',new THREE.Vector3(-1,-2.5,0),'#ff44cc');
+    addSSprite9('OPEN STRINGS (SO(32))',new THREE.Vector3(-1,-2.5,0),'#ff6644');
     addSSprite9('CLOSED STRING',new THREE.Vector3(3.5,1.8,0),'#ffffff');
     // D9-brane (background plane hint)
     const pg=new THREE.PlaneGeometry(9,5,48,28);
@@ -5899,7 +5899,7 @@ function lBuildContours(W,H,L,s){
 }
 function drawLandscape(ctx,W,H,t,scale){
   const L=lLayout(W,H),cx=L.cx,cy=L.cy,s=Math.max(.3,scale)/(isMobile()?.6:.45);
-  ctx.clearRect(0,0,W,H);ctx.fillStyle='#010408';ctx.fillRect(0,0,W,H);
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#080100';ctx.fillRect(0,0,W,H);
   const pivot=()=>{ctx.translate(cx,cy);ctx.scale(s,s);ctx.translate(-cx,-cy);};
   let head,sub,legend=null;
 
@@ -5914,7 +5914,7 @@ function drawLandscape(ctx,W,H,t,scale){
       if(m.ours)return;
       const px=cx+m.x*half,py=cy+m.y*half;if(px<-12||py<-12||px>W+12||py>H+12)return;
       const pulse=.8+.2*Math.sin(t*2.2+i*.7),dep=Math.min(1,Math.abs(m.v)/Math.max(.3,m.v>0?LSC.vmax:-LSC.vmin)),ds=m.kind==='dS';
-      const col=ds?'#44ddff':'#ff5a4a',r=(2.4+dep*2.6)*rs*(ds?1.2:1)*pulse;
+      const col=ds?'#ffaa00':'#ff5a4a',r=(2.4+dep*2.6)*rs*(ds?1.2:1)*pulse;
       ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fillStyle=col;ctx.globalAlpha=.92;ctx.shadowColor=col;ctx.shadowBlur=9;ctx.fill();ctx.shadowBlur=0;
       if(ds){ctx.globalAlpha=.55;ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.arc(px,py,r+2.5*rs,0,Math.PI*2);ctx.stroke();}      // ring = metastable (can decay)
       ctx.globalAlpha=1;
@@ -5929,7 +5929,7 @@ function drawLandscape(ctx,W,H,t,scale){
     ctx.fillText('φ₁ →',cx,Math.min(H-4,cy+half+14));
     ctx.save();ctx.translate(Math.max(12,cx-half-8),cy);ctx.rotate(-Math.PI/2);ctx.fillText('φ₂ →',0,0);ctx.restore();
     head='STRING LANDSCAPE — V(φ₁,φ₂)';sub='EVERY MARKER = A VERIFIED MINIMUM OF V  (∇V = 0, ALL MASSES² > 0)';
-    legend=[['#44ddff','● Λ>0 de Sitter minimum (ringed = metastable)'],['#ff5a4a','● Λ<0 anti-de Sitter minimum'],['#ffffff','— Λ = 0 contour · ○ our vacuum (tiny Λ>0)']];
+    legend=[['#ffaa00','● Λ>0 de Sitter minimum (ringed = metastable)'],['#ff5a4a','● Λ<0 anti-de Sitter minimum'],['#ffffff','— Λ = 0 contour · ○ our vacuum (tiny Λ>0)']];
 
   } else if(lMode==='bubble'){
     /* Coleman–De Luccia wall in the plane: R(τ) = √(R₀² + c²τ²). It is born at rest (R₀ = 3σ/ε), accelerates, and hugs the light-cone
@@ -5944,7 +5944,7 @@ function drawLandscape(ctx,W,H,t,scale){
       const R=Math.sqrt(R0*R0+c*c*age*age),Rc=c*age,v=c*age/R;
       const al=Math.min(1,age/.6)*(age>PER-3?(PER-age)/3:1);
       ctx.beginPath();ctx.arc(bx,by,R,0,Math.PI*2);ctx.fillStyle=`rgba(20,90,130,${al*.38})`;ctx.fill();
-      ctx.save();ctx.strokeStyle=`rgba(68,221,255,${al*.9})`;ctx.lineWidth=2/s;ctx.shadowColor='#44ddff';ctx.shadowBlur=16;ctx.stroke();ctx.restore();
+      ctx.save();ctx.strokeStyle=`rgba(255,170,0,${al*.9})`;ctx.lineWidth=2/s;ctx.shadowColor='#ffaa00';ctx.shadowBlur=16;ctx.stroke();ctx.restore();
       if(Rc>4){ctx.save();ctx.strokeStyle=`rgba(255,200,100,${al*.65})`;ctx.lineWidth=1/s;ctx.setLineDash([3/s,4/s]);ctx.beginPath();ctx.arc(bx,by,Rc,0,Math.PI*2);ctx.stroke();ctx.restore();}   // light cone R = cτ
       if(age<.9){ctx.strokeStyle=`rgba(255,255,255,${(1-age/.9)*.8})`;ctx.lineWidth=1.5/s;ctx.beginPath();ctx.arc(bx,by,R0*(1+4*age),0,Math.PI*2);ctx.stroke();}                          // nucleation event
       ctx.textAlign='center';
@@ -5966,7 +5966,7 @@ function drawLandscape(ctx,W,H,t,scale){
         if(lam>0&&(!sm||lam<sm.lam))sm={lam,x:ox2+(ni+NN+.5)*cell,y:oy2+(nj+NN+.5)*cell};
         const px2=ox2+(ni+NN)*cell+cell*.5,py2=oy2+(nj+NN)*cell+cell*.5;
         const R=Math.max(2,cell*.36),pulse=viable?.75+.25*Math.sin(t*2+ni*.7+nj):1;
-        const a=viable?.95:.3,col=lam>0?`rgba(68,221,255,${a})`:`rgba(255,80,80,${a})`;
+        const a=viable?.95:.3,col=lam>0?`rgba(255,170,0,${a})`:`rgba(255,80,80,${a})`;
         ctx.beginPath();ctx.arc(px2,py2,R*pulse*(viable?1.15:1),0,Math.PI*2);
         ctx.fillStyle=col;ctx.shadowColor=col;ctx.shadowBlur=viable?12:2;ctx.fill();ctx.shadowBlur=0;
       }
@@ -5983,12 +5983,12 @@ function drawLandscape(ctx,W,H,t,scale){
     if(sm){const tx='◯ smallest Λ>0 in this slice: +'+sm.lam.toFixed(3),px=cx+(sm.x-cx)*s,py=cy+(sm.y-cy)*s;
       ctx.font='10px '+LFONT;ctx.textAlign='left';ctx.fillStyle='rgba(1,4,8,.7)';const tw=ctx.measureText(tx).width;ctx.fillRect(Math.min(px+12,W-tw-8)-3,py-10,tw+6,15);ctx.fillStyle='#fff';ctx.fillText(tx,Math.min(px+12,W-tw-8),py+1);}
     head='BOUSSO–POLCHINSKI FLUX LATTICE (slice n₃ = 0)';sub='Λ = Λ₀ + ½Σqᵢ²nᵢ²  ·  DASHED RING = Λ=0  ·  BRIGHT = SMALL |Λ|';
-    legend=[['#44ddff','● Λ>0 (de Sitter)'],['#ff5050','● Λ<0 (AdS)'],['#b8c8d8','● bright = small |Λ| (rare)']];
+    legend=[['#ffaa00','● Λ>0 (de Sitter)'],['#ff5050','● Λ<0 (AdS)'],['#b8c8d8','● bright = small |Λ| (rare)']];
   }
 
   // ── Headings / legend: drawn in screen space (never scaled), clear of the title badge and button row ──
   ctx.save();ctx.textAlign='center';
-  const f1=lFit(ctx,head,W-24,11,8.5);ctx.fillStyle='rgba(68,221,255,.98)';ctx.fillText(head,W/2,L.padT-24);
+  const f1=lFit(ctx,head,W-24,11,8.5);ctx.fillStyle='rgba(255,170,0,.98)';ctx.fillText(head,W/2,L.padT-24);
   lFit(ctx,sub,W-24,9.5,7.5);ctx.fillStyle='rgba(180,220,255,.95)';ctx.fillText(sub,W/2,L.padT-9);
   if(legend){
     ctx.font='9.5px '+LFONT;ctx.textAlign='left';const lw=Math.max(...legend.map(r=>ctx.measureText(r[1]).width))+14,lh=legend.length*14+8,x0=10,y0=L.mob?H-lh-6:L.padT;
@@ -6057,9 +6057,9 @@ const MWEB_NODES=[
   {label:'M-THEORY',pos:[0,0,0],col:0xaa88ff,r:.25},
   {label:'TYPE IIA',pos:[-2.2,1.2,0],col:0xff6a1a,r:.16},
   {label:'TYPE IIB',pos:[2.2,1.2,0],col:0xffcc00,r:.16},
-  {label:'HET E₈×E₈',pos:[-2.5,-1.4,0],col:0x44ddff,r:.16},
+  {label:'HET E₈×E₈',pos:[-2.5,-1.4,0],col:0xffaa00,r:.16},
   {label:'HET SO(32)',pos:[0,-2.6,0],col:0x88ffaa,r:.16},
-  {label:'TYPE I',pos:[2.5,-1.4,0],col:0xff44cc,r:.16},
+  {label:'TYPE I',pos:[2.5,-1.4,0],col:0xff6644,r:.16},
 ];
 const MWEB_EDGES=[
   [0,1,'S¹'],[0,3,'S¹/ℤ₂'],
@@ -6678,7 +6678,7 @@ const DR={
   nucleus(r,t){sx.setLineDash([5,5]);sx.strokeStyle='rgba(255,180,120,.4)';sx.lineWidth=1;arc0(r);sx.stroke();sx.setLineDash([]);
     NUC.forEach((q,i)=>{const jx=Math.sin(t*2+i*1.7)*r*.025,jy=Math.cos(t*2.3+i)*r*.025;sx.fillStyle=q[2]?'#ff6a1a':'#ffe0b0';sx.strokeStyle='rgba(0,0,0,.4)';sx.lineWidth=1;sx.beginPath();sx.arc(q[0]*r+jx,q[1]*r+jy,r*.24,0,TAU);sx.fill();sx.stroke();});},
   proton(r,t){sx.strokeStyle='rgba(255,154,85,.6)';sx.lineWidth=1.5;sx.fillStyle='rgba(255,100,40,.08)';arc0(r);sx.fill();sx.stroke();
-    const cols=['#ff3322','#ffd24a','#44ddff'],P=[];
+    const cols=['#ff3322','#ffd24a','#ffaa00'],P=[];
     for(let k=0;k<3;k++){const a=t*1.2+k*TAU/3;P.push([Math.cos(a)*r*.45,Math.sin(a)*r*.45]);}
     for(let a=0;a<3;a++){const b=(a+1)%3;sx.beginPath();const N=24;for(let i=0;i<=N;i++){const u=i/N,x=P[a][0]+(P[b][0]-P[a][0])*u,y=P[a][1]+(P[b][1]-P[a][1])*u,dx=P[b][0]-P[a][0],dy=P[b][1]-P[a][1],L=Math.hypot(dx,dy)||1,w=Math.sin(u*TAU*3+t*8)*r*.05;i?sx.lineTo(x-dy/L*w,y+dx/L*w):sx.moveTo(x,y);}sx.strokeStyle='rgba(255,230,190,.55)';sx.lineWidth=1.2;sx.stroke();}
     P.forEach((q,k)=>{sx.fillStyle=cols[k];sx.shadowColor=cols[k];sx.shadowBlur=14;sx.beginPath();sx.arc(q[0],q[1],r*.17,0,TAU);sx.fill();});sx.shadowBlur=0;},
@@ -7732,7 +7732,7 @@ let slice,sliceDisc,sliceDots,sliceLbl;
  for(let a=0;a<=NT;a++){const t=TMAX*a/NT,R=Rof(t),y=yOf(t);for(let b=0;b<=NA;b++){const q=TAU*b/NA,k=(a*(NA+1)+b)*3;pos[k]=Math.cos(q)*R;pos[k+1]=y;pos[k+2]=Math.sin(q)*R;}}
  for(let a=0;a<NT;a++)for(let b=0;b<NA;b++){const i0=a*(NA+1)+b,i1=i0+1,i2=i0+NA+1,i3=i2+1;idx.push(i0,i2,i1,i1,i2,i3);}
  const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(pos,3));hg.setIndex(idx);
- gB.add(new THREE.Mesh(hg,new THREE.MeshBasicMaterial({color:0x44ddff,transparent:true,opacity:.1,side:THREE.DoubleSide,depthWrite:false,blending:ADD})));
+ gB.add(new THREE.Mesh(hg,new THREE.MeshBasicMaterial({color:0xffaa00,transparent:true,opacity:.1,side:THREE.DoubleSide,depthWrite:false,blending:ADD})));
  for(let a=0;a<=NT;a+=4){const pts=[];for(let b=0;b<=NA;b++){const k=(a*(NA+1)+b)*3;pts.push(new V3(pos[k],pos[k+1],pos[k+2]));}pts.pop();gB.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x66e6ff,transparent:true,opacity:.55})));}
  for(let b=0;b<NA;b+=6){const pts=[];for(let a=0;a<=NT;a++){const k=(a*(NA+1)+b)*3;pts.push(new V3(pos[k],pos[k+1],pos[k+2]));}gB.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x66e6ff,transparent:true,opacity:.4})));}
  /* light cone R = t */
@@ -7752,7 +7752,7 @@ let slice,sliceDisc,sliceDots,sliceLbl;
  spr('light cone R = t','#ffb060',new V3(-TMAX-.2,yOf(TMAX),0),10,.8,gB);
  /* moving constant-time slice */
  slice=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({length:96},(_,i)=>new V3(Math.cos(TAU*i/96),0,Math.sin(TAU*i/96)))),new THREE.LineBasicMaterial({color:0xffffff}));gB.add(slice);
- sliceDisc=new THREE.Mesh(new THREE.CircleGeometry(1,64),new THREE.MeshBasicMaterial({color:0x44ddff,transparent:true,opacity:.2,side:THREE.DoubleSide,depthWrite:false,blending:ADD}));sliceDisc.rotation.x=-Math.PI/2;gB.add(sliceDisc);
+ sliceDisc=new THREE.Mesh(new THREE.CircleGeometry(1,64),new THREE.MeshBasicMaterial({color:0xffaa00,transparent:true,opacity:.2,side:THREE.DoubleSide,depthWrite:false,blending:ADD}));sliceDisc.rotation.x=-Math.PI/2;gB.add(sliceDisc);
  const dp=new Float32Array(72*3),dc=new Float32Array(72*3).fill(1);const dg=new THREE.BufferGeometry();dg.setAttribute('position',new THREE.BufferAttribute(dp,3));dg.setAttribute('color',new THREE.BufferAttribute(dc,3));
  sliceDots=new THREE.Points(dg,ptsMat(.22,1));sliceDots.frustumCulled=false;gB.add(sliceDots);}
 function updBubble(t){
@@ -7787,7 +7787,7 @@ let viableCount=0;const FC=.3;let vp,fOur;
  [[new V3(L,0,0),'n₁','#88ccff'],[new V3(0,0,L),'n₂','#88ccff'],[new V3(0,L,0),'n₃','#88ccff']].forEach(([p,t,c])=>{gF.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new V3(0,0,0),p]),new THREE.LineBasicMaterial({color:0x88ccff,transparent:true,opacity:.5})));spr(t,c,p.clone().multiplyScalar(1.06),12,.6,gF);});
  spr('Λ = 0 ellipsoid','#ffffff',new V3(A1+.45,.3,0),10,.9,gF);
  spr('AdS (Λ<0) inside','#ff6a55',new V3(0,-.6,0),10,.9,gF);
- spr('dS (Λ>0) outside','#44ddff',new V3(-A1-.5,-A3*.55,0),10,.9,gF);}
+ spr('dS (Λ>0) outside','#ffaa00',new V3(-A1-.5,-A3*.55,0),10,.9,gF);}
 
 /* ───────── notes, interaction, loop ───────── */
 const NOTE3={
