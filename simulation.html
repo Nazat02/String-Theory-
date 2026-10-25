@@ -2841,7 +2841,7 @@ sub+sup,sup+sub{margin-left:.04em;}
 <div class="pbar2"><select id="ul-pre" aria-label="presets"></select><button id="ul-copy">COPY LINK</button><button id="ul-reset">RESET</button></div>
 <div class="pc" id="u-ctl"><div id="ul-sl"></div><div class="pnote" id="ul-src"></div></div>
 <div class="pc" id="u-3d"><b>THIS UNIVERSE IN 3D</b>
-<div class="pb" id="u3-tabs" style="margin-top:8px"><button class="on" data-v="space">COMPACT SPACE</button><button data-v="towers">SCALE TOWERS</button><button data-v="flux">FLUX LATTICE</button><button data-v="versus">THIS vs OURS</button><button data-v="hier">SCALE SHELLS</button><button data-v="fam">FAMILIES &amp; MODULI</button><button data-v="vac">VACUUM CLOUD</button><button data-v="run">RUNNING COUPLINGS</button><button data-v="hodge">HODGE 3D</button><button data-v="land">FLUX SURFACE</button><button data-v="throat">WARPED THROAT</button><button data-v="fate">COSMIC FATE</button><button data-v="tdual">T-DUALITY</button><button data-v="pcmp">PARTICLES: OURS vs THIS</button><button data-v="atlas">UNIVERSE CLOUD</button><button data-v="mount">MATCH MOUNTAIN</button><button data-v="neb">NEBULA GALAXY</button><button data-v="orbs">MULTIVERSE ORBS</button></div>
+<div class="pb" id="u3-tabs" style="margin-top:8px"><button class="on" data-v="space">COMPACT SPACE</button><button data-v="towers">SCALE TOWERS</button><button data-v="flux">FLUX LATTICE</button><button data-v="versus">THIS vs OURS</button><button data-v="cy">CALABI-YAU TWINS</button><button data-v="str">INTERACTING STRINGS</button><button data-v="kkh">KK TOWER HELIX</button><button data-v="pot">MODULI TERRAIN</button><button data-v="knt">FAMILY KNOTS</button><button data-v="sg_sph">KK SPHERE</button><button data-v="sg_tw">FLUX TORUS</button><button data-v="sg_kl">KLEIN</button><button data-v="sg_ps">PSEUDOSPHERE</button><button data-v="sg_hc">HELICOID</button><button data-v="sg_en">ENNEPER</button><button data-v="sg_ch">CHLADNI</button><button data-v="sg_co">CONIFOLD</button><button data-v="sg_ds">DE SITTER</button><button data-v="sg_ms">SADDLE</button><button data-v="hier">SCALE SHELLS</button><button data-v="fam">FAMILIES &amp; MODULI</button><button data-v="vac">VACUUM CLOUD</button><button data-v="run">RUNNING COUPLINGS</button><button data-v="hodge">HODGE 3D</button><button data-v="land">FLUX SURFACE</button><button data-v="throat">WARPED THROAT</button><button data-v="fate">COSMIC FATE</button><button data-v="tdual">T-DUALITY</button><button data-v="pcmp">PARTICLES: OURS vs THIS</button><button data-v="atlas">UNIVERSE CLOUD</button><button data-v="mount">MATCH MOUNTAIN</button><button data-v="neb">NEBULA GALAXY</button><button data-v="orbs">MULTIVERSE ORBS</button></div>
 <div id="u3-wrap"><canvas id="ul-3d" class="pcs"></canvas><div id="u3-ctl"><button data-c="in" title="zoom in" aria-label="zoom in">+</button><button data-c="out" title="zoom out" aria-label="zoom out">−</button><button data-c="reset" title="reset view" aria-label="reset view">⟲</button><button data-c="spin" title="auto-rotate on/off" aria-label="auto-rotate">↻</button><button data-c="fs" title="full screen" aria-label="full screen">⛶</button></div></div><div class="pnote" id="u3-cap"></div></div>
 <div class="pc" id="u-twin" data-fold><div class="ch"><b>SAME EQUATIONS · DIFFERENT LAWS</b><span class="hint">three universes that differ only in internal volume V</span></div><canvas id="ul-twin" class="pcs" style="width:100%;display:block"></canvas><div class="pnote" id="ul-twin-cap"></div></div>
 <div class="pc" id="u-validity" data-fold><div class="ch"><b>VALIDITY</b><span class="pst wait" id="ul-vst" role="status" aria-live="polite">—</span></div><div id="ul-val"></div></div>
@@ -8603,6 +8603,117 @@ const U3=(function(){
       g.attributes.position.needsUpdate=true;g.attributes.color.needsUpdate=true;};}
   /* THIS vs OURS: two schematic compact spaces + log-ratio bars (exact ratios from the model) */
   function vsRatios(R){const v=R.val;return[['α',Math.log10(v.alpha*25),'×'+fnum(v.alpha*25,2)],['M_KK',Math.log10(v.Mkk/GUT_GEV),'×'+fnum(v.Mkk/GUT_GEV,2)],['families',R.het?Math.log10(Math.max(R.gens,.01)/3):0,R.het?(R.gens+'/3'):'n/a']];}
+  /* -- view: CALABI-YAU TWINS (SCHEMATIC): Hanson-style Fermat cross-section z1^n+z2^n=1, ours (left) vs this universe (right) -- */
+  function cyMesh(n,hex,hex2,scale,x0,ph){const res=11,g=new THREE.Group(),pos=[],col=[],tri=[],wire=[],c1=new THREE.Color(hex),c2=new THREE.Color(hex2),cc=new THREE.Color(),al=Math.PI/4,ca=Math.cos(al),sa=Math.sin(al);
+    const pw=(re,im,e)=>{const r=Math.pow(Math.hypot(re,im),e),a=Math.atan2(im,re)*e;return[r*Math.cos(a),r*Math.sin(a)];};
+    let base=0;
+    for(let k1=0;k1<n;k1++)for(let k2=0;k2<n;k2++){
+      for(let i=0;i<=res;i++)for(let j=0;j<=res;j++){
+        const a=Math.PI/2*i/res,b=-1+2*j/res,ch=Math.cosh(b),sh=Math.sinh(b),
+          z1=pw(Math.cos(a)*ch,-Math.sin(a)*sh,2/n),z2=pw(Math.sin(a)*ch,Math.cos(a)*sh,2/n),
+          w1=2*Math.PI*k1/n,w2=2*Math.PI*k2/n,
+          r1=z1[0]*Math.cos(w1)-z1[1]*Math.sin(w1),i1=z1[0]*Math.sin(w1)+z1[1]*Math.cos(w1),
+          r2=z2[0]*Math.cos(w2)-z2[1]*Math.sin(w2),i2=z2[0]*Math.sin(w2)+z2[1]*Math.cos(w2);
+        pos.push(r1*scale,r2*scale,(i1*ca+i2*sa)*scale);
+        cc.copy(c1).lerp(c2,((k1+k2)%n)/Math.max(1,n-1)*.8+.2*j/res);col.push(cc.r,cc.g,cc.b);}
+      for(let i=0;i<res;i++)for(let j=0;j<res;j++){const q=base+i*(res+1)+j;tri.push(q,q+1,q+res+1,q+1,q+res+2,q+res+1);
+        if(i%2===0)wire.push(q,q+1);if(j%2===0)wire.push(q,q+res+1);}
+      base+=(res+1)*(res+1);}
+    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));geo.setIndex(tri);
+    const sf=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.2,side:THREE.DoubleSide,blending:ADDB,depthWrite:false}));
+    const wg=geo.clone();wg.setIndex(wire);const wf=new THREE.LineSegments(wg,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.75,blending:ADDB,depthWrite:false}));
+    g.add(sf,wf);g.position.x=x0;g.userData.ph=ph;return g;}
+  const CY_N={quintic:5,mirror:5,z5:5,z5z5:5,bicubic:3,twocubics:4,octic:6,schoen:3};
+  function buildCY(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass),M=R.M,nT=CY_N[M.id]||5,sT=sp?sp.s:1;
+    const A=cyMesh(5,'#ffd24a','#ff8c42',1.15,-3.3,0),B=cyMesh(nT,bad?'#ff3a1a':'#ff6a1a',bad?'#ff8c42':'#ffcc66',1.15*sT,3.3,1.7);
+    add(A);add(B);
+    const la=label('OURS \u00b7 3 families \u00b7 a\u22481/25','#ffe2c4',.9),lb=label((R.het?R.gens+' fam':'fam: brane data')+' \u00b7 '+M.name.split(' ')[0]+' \u00b7 R='+fnum(R.val.Rad,2),bad?'#ff6a4a':'#ffd24a',.9);
+    la.position.set(-3.3,2.7,0);lb.position.set(3.3,2.7,0);add(la);add(lb);
+    anim.push(tt=>{A.rotation.y=tt*.22;A.rotation.x=.25+.06*Math.sin(tt*.5);B.rotation.y=-tt*.22+B.userData.ph;B.rotation.x=.25+.06*Math.sin(tt*.5+1);const br=1+.015*Math.sin(tt*1.7);A.scale.setScalar(br);B.scale.setScalar(br);});}
+  /* -- view: INTERACTING STRINGS (SCHEMATIC): vibrating closed loops; g_s sets how strongly neighbours couple and flash -- */
+  function glowSprite(hex,k){const m=new THREE.Sprite(new THREE.SpriteMaterial({map:GT_,color:new THREE.Color(hex),blending:ADDB,transparent:true,depthWrite:false,fog:false}));m.scale.set(k,k,1);return m;}
+  function buildStr(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass),gsn=sp?sp.gsn:.5,NP=96;
+    [{x:-3.3,n:3,c:'#ffd24a',g:.45},{x:3.3,n:clamp(R.het?R.gens:3,1,10),c:bad?'#ff3a1a':'#ff6a1a',g:gsn}].forEach((u,ui)=>{
+      add(glowSprite(u.c,2.4)).position.set(u.x,0,0);
+      const L=[];for(let i=0;i<u.n;i++){const pa=new Float32Array((NP+1)*3),ge=new THREE.BufferGeometry();ge.setAttribute('position',new THREE.BufferAttribute(pa,3));
+        const ln=new THREE.Line(ge,new THREE.LineBasicMaterial({color:new THREE.Color(u.c).offsetHSL(i*.02,0,0),transparent:true,opacity:.9,blending:ADDB,depthWrite:false}));ln.frustumCulled=false;add(ln);
+        L.push({ln,pa,r:.95+.3*(i%4),ph:i*2.4,sp:.5/(1+.25*(i%4)),k:2+i%4,tl:.3+.12*i});}
+      const lk=[],fl=[];for(let i=0;i<u.n;i++){const j=(i+1)%u.n;if(j===i)continue;const ge=new THREE.BufferGeometry();ge.setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3));
+        const l2=new THREE.Line(ge,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0,blending:ADDB,depthWrite:false}));l2.frustumCulled=false;add(l2);lk.push([l2,i,j]);const f=glowSprite('#ffffff',.1);add(f);fl.push(f);}
+      anim.push(tt=>{const C=L.map(o=>({x:u.x+o.r*Math.cos(tt*o.sp+o.ph),y:Math.sin(tt*o.sp*.7+o.ph)*o.tl,z:o.r*Math.sin(tt*o.sp+o.ph)}));
+        L.forEach((o,i)=>{const c=C[i],amp=.18+.5*u.g,ca=Math.cos(tt*.6+i),sa=Math.sin(tt*.6+i);
+          for(let q=0;q<=NP;q++){const th=TAU*q/NP,rd=.34*(1+amp*Math.sin(o.k*th+tt*3+o.ph)),lx=rd*Math.cos(th),ly=rd*Math.sin(th),lz=.18*amp*Math.sin(2*o.k*th-tt*2);
+            o.pa[q*3]=c.x+lx*ca+lz*sa;o.pa[q*3+1]=c.y+ly;o.pa[q*3+2]=c.z-lx*sa+lz*ca;}o.ln.geometry.attributes.position.needsUpdate=true;});
+        lk.forEach(([l2,i,j],q)=>{const a=C[i],b=C[j],d=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z),g=clamp((1.7-d)*(.35+1.6*u.g),0,1),p=l2.geometry.attributes.position.array;
+          p[0]=a.x;p[1]=a.y;p[2]=a.z;p[3]=b.x;p[4]=b.y;p[5]=b.z;l2.geometry.attributes.position.needsUpdate=true;l2.material.opacity=g;
+          fl[q].position.set((a.x+b.x)/2,(a.y+b.y)/2,(a.z+b.z)/2);const k=.15+g*(.9+.3*Math.sin(tt*14+q));fl[q].scale.set(k,k,1);});});
+      const lb=label(ui?(R.het?R.gens+' fam':'brane data')+' \u00b7 g_s='+fnum(Math.pow(10,U.lg),2):'OURS \u00b7 3 families',ui&&bad?'#ff6a4a':'#ffe2c4',.85);lb.position.set(u.x,2.3,0);add(lb);});}
+  /* -- view: KK TOWER HELIX (TREE-LEVEL): levels n*M_KK on a log axis; levels above M_s are not valid string-regime states -- */
+  function buildKK(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass),yOf=l=>(clamp(l,8,21)-8)*.5-2.8,v=R.val,lg=Math.log10;
+    const ours={kk:lg(GUT_GEV),ms:lg(MPL_GEV*Math.sqrt(1/25)),pl:v.lPl},mine={kk:v.lKK,ms:v.lMs,pl:v.lPl};
+    [[-3.3,ours,'#ffd24a','OURS'],[3.3,mine,bad?'#ff3a1a':'#ff6a1a','THIS']].forEach(([x0,o,hex,nm])=>{
+      const N=24,pos=new Float32Array(N*3),col=new Float32Array(N*3),c=new THREE.Color(),lp=[];
+      for(let n=1;n<=N;n++){const l=o.kk+lg(n),th=n*.8;pos.set([x0+.9*Math.cos(th),yOf(l),.9*Math.sin(th)],(n-1)*3);lp.push(new V3(pos[(n-1)*3],pos[(n-1)*3+1],pos[(n-1)*3+2]));
+        c.set(l>o.ms?'#6a1a10':hex).multiplyScalar(l>o.ms?.7:1);col.set([c.r,c.g,c.b],(n-1)*3);}
+      const ge=new THREE.BufferGeometry();ge.setAttribute('position',new THREE.BufferAttribute(pos,3));ge.setAttribute('color',new THREE.BufferAttribute(col,3));
+      add(new THREE.Points(ge,new THREE.PointsMaterial({size:.55,vertexColors:true})));
+      add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(new THREE.CatmullRomCurve3(lp).getPoints(220)),new THREE.LineBasicMaterial({color:new THREE.Color(hex),transparent:true,opacity:.45,blending:ADDB,depthWrite:false})));
+      [[o.ms,'#ffcc66','M_s'],[v.lPl,'#ffe2c4','M_Pl'],[lg(GUT_GEV),'#ffb888','M_GUT']].forEach(([l,cl,tx])=>{const pts=[];for(let q=0;q<=64;q++)pts.push(new V3(x0+1.5*Math.cos(TAU*q/64),yOf(l),1.5*Math.sin(TAU*q/64)));
+        add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:new THREE.Color(cl),transparent:true,opacity:.5,blending:ADDB,depthWrite:false})));
+        const t2=label(tx,cl,.5);t2.position.set(x0+1.9,yOf(l),0);add(t2);});
+      const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(18),3));const pp=add(new THREE.Points(pg,new THREE.PointsMaterial({size:.4,color:0xffffff})));
+      const cv_=new THREE.CatmullRomCurve3(lp);anim.push(tt=>{const a=pg.attributes.position.array;for(let q=0;q<6;q++){const w=cv_.getPoint(((tt*.08+q/6)%1)),i=q*3;a[i]=w.x;a[i+1]=w.y;a[i+2]=w.z;}pg.attributes.position.needsUpdate=true;});
+      const lb=label(nm+' \u00b7 M_KK=10^'+o.kk.toFixed(1),hex,.8);lb.position.set(x0,3.7,0);add(lb);});}
+  /* -- view: MODULI POTENTIAL (SCHEMATIC): glowing terrain V(phi1,phi2) with probes rolling into minima; g_s sets ruggedness -- */
+  function buildPot(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass),gsn=sp?sp.gsn:.5,G=44;
+    [{x:-3.3,k:2.2,A:.28,c:'#ffd24a',nm:'OURS \u00b7 shallow landscape'},{x:3.3,k:1.6+1.8*gsn,A:.16+.45*gsn,c:bad?'#ff3a1a':'#ff6a1a',nm:'THIS \u00b7 g_s='+fnum(Math.pow(10,U.lg),2)}].forEach(u=>{
+      const H=(x,z)=>u.A*(Math.cos(u.k*x)+Math.cos(u.k*z))+.11*(x*x+z*z)-.9,pos=new Float32Array((G+1)*(G+1)*3),col=new Float32Array((G+1)*(G+1)*3),idx=[],cc=new THREE.Color(u.c),c0=new THREE.Color('#2a0600');
+      for(let i=0;i<=G;i++)for(let j=0;j<=G;j++){const x=-2+4*i/G,z=-2+4*j/G,y=H(x,z),q=(i*(G+1)+j)*3,t=clamp((y+1.6)/1.9,0,1),m=c0.clone().lerp(cc,t);pos.set([u.x+x,y,z],q);col.set([m.r,m.g,m.b],q);
+        if(i<G&&j%2===0)idx.push(i*(G+1)+j,(i+1)*(G+1)+j);if(j<G&&i%2===0)idx.push(i*(G+1)+j,i*(G+1)+j+1);}
+      const ge=new THREE.BufferGeometry();ge.setAttribute('position',new THREE.BufferAttribute(pos,3));ge.setAttribute('color',new THREE.BufferAttribute(col,3));ge.setIndex(idx);
+      const mesh=new THREE.LineSegments(ge,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.8,blending:ADDB,depthWrite:false}));add(mesh);
+      const NB=22,bx=[],pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(NB*3),3));
+      const rs=b=>{b.x=(Math.random()-.5)*3.6;b.z=(Math.random()-.5)*3.6;b.vx=b.vz=0;b.age=0;};for(let i=0;i<NB;i++){const b={};rs(b);b.age=Math.random()*5;bx.push(b);}
+      add(new THREE.Points(pg,new THREE.PointsMaterial({size:.42,color:new THREE.Color(u.c).offsetHSL(0,0,.25)})));
+      anim.push(tt=>{const a=pg.attributes.position.array;bx.forEach((b,i)=>{const gx=-u.A*u.k*Math.sin(u.k*b.x)+.22*b.x,gz=-u.A*u.k*Math.sin(u.k*b.z)+.22*b.z;
+        b.vx=b.vx*.97-gx*.03;b.vz=b.vz*.97-gz*.03;b.x=clamp(b.x+b.vx,-2,2);b.z=clamp(b.z+b.vz,-2,2);b.age+=.016;if(b.age>7)rs(b);
+        a[i*3]=u.x+b.x;a[i*3+1]=H(b.x,b.z)+.07;a[i*3+2]=b.z;});pg.attributes.position.needsUpdate=true;});
+      const lb=label(u.nm,bad&&u.x>0?'#ff6a4a':'#ffe2c4',.85);lb.position.set(u.x,1.7,0);add(lb);});}
+  /* -- view: FAMILY KNOTS (SCHEMATIC): one torus-knot winding number per family; ours is the trefoil (3 families) -- */
+  function buildKnot(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass),qT=clamp(R.het?R.gens:3,3,11);
+    [[-3.3,3,'#ffd24a','OURS \u00b7 trefoil (2,3)'],[3.3,qT,bad?'#ff3a1a':'#ff6a1a','THIS \u00b7 ('+2+','+qT+') \u00b7 '+(R.het?R.gens+' fam':'brane data')]].forEach(([x0,q,hex,nm],ui)=>{
+      const g=new THREE.Group(),pts=[],P=2;for(let i=0;i<=360;i++){const t=TAU*i/360,r=Math.cos(q*t)+2;pts.push(new V3(r*Math.cos(P*t),r*Math.sin(P*t),-Math.sin(q*t)).multiplyScalar(.45));}
+      const cur=new THREE.CatmullRomCurve3(pts,true),tg=new THREE.TubeGeometry(cur,Math.min(400,120+q*20),.1,8,true);
+      g.add(new THREE.Mesh(tg,new THREE.MeshBasicMaterial({color:new THREE.Color(hex),wireframe:true,transparent:true,opacity:.35,blending:ADDB,depthWrite:false})));
+      g.add(new THREE.Mesh(new THREE.TubeGeometry(cur,300,.04,6,true),new THREE.MeshBasicMaterial({color:new THREE.Color(hex).offsetHSL(0,0,.3),transparent:true,opacity:.9,blending:ADDB,depthWrite:false})));
+      const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(q*3),3));g.add(new THREE.Points(pg,new THREE.PointsMaterial({size:.5,color:0xffffff,map:GT_,blending:ADDB,depthWrite:false,transparent:true})));
+      g.position.set(x0,0,0);add(g);
+      anim.push(tt=>{g.rotation.y=tt*(.25+.05*ui);g.rotation.x=.4+.1*Math.sin(tt*.4);const a=pg.attributes.position.array;for(let i=0;i<q;i++){const w=cur.getPoint((tt*.06+i/q)%1);a[i*3]=w.x;a[i*3+1]=w.y;a[i*3+2]=w.z;}pg.attributes.position.needsUpdate=true;});
+      const lb=label(nm,ui&&bad?'#ff6a4a':'#ffe2c4',.85);lb.position.set(x0,2.7,0);add(lb);});}
+  /* -- 10 DENSE SURFACE VIEWS (SCHEMATIC): 90x90 smooth parametric meshes, ours (left) vs this (right); g_s -> amplitude, families -> mode number -- */
+  const SG={
+   sph:['KK RIPPLE SPHERE',[0,Math.PI,0,TAU],(u,v,t,P)=>{const r=1.4*(1+.26*P.a*Math.sin(P.n*v+t*1.5)*Math.sin(P.n*u));return[r*Math.sin(u)*Math.cos(v),r*Math.cos(u),r*Math.sin(u)*Math.sin(v)];}],
+   tw:['TWISTED FLUX TORUS',[0,TAU,0,TAU],(u,v,t,P)=>{const w=v+P.n*u/2,r=.42+.12*P.a*Math.sin(P.n*u+t),q=1.15+r*Math.cos(w);return[q*Math.cos(u),r*Math.sin(w),q*Math.sin(u)];}],
+   kl:['KLEIN BOTTLE',[0,TAU,0,TAU],(u,v,t,P)=>{const h=u/2,w=2+Math.cos(h)*Math.sin(v)-Math.sin(h)*Math.sin(2*v),k=.55*(1+.08*P.a*Math.sin(t*1.3));return[w*Math.cos(u)*k,(Math.sin(h)*Math.sin(v)+Math.cos(h)*Math.sin(2*v))*k*1.3,w*Math.sin(u)*k];}],
+   ps:['PSEUDOSPHERE',[.15,3.2,0,TAU],(u,v,t,P)=>{const r=1.3/Math.cosh(u)*(1+.06*P.a*Math.sin(P.n*v+t*2));return[r*Math.cos(v),(u-Math.tanh(u))*1.1-.8,r*Math.sin(v)];}],
+   hc:['HELICOID-CATENOID',[-Math.PI,Math.PI,-1.4,1.4],(u,v,t,P)=>{const al=(.5+.5*Math.sin(t*.5+P.n))*Math.PI/2*(.4+P.a),ca=Math.cos(al),sa=Math.sin(al);return[.6*(ca*Math.sinh(v)*Math.sin(u)+sa*Math.cosh(v)*Math.cos(u)),.6*(u*ca+v*sa),.6*(-ca*Math.sinh(v)*Math.cos(u)+sa*Math.cosh(v)*Math.sin(u))];}],
+   en:['ENNEPER BRANE',[-1.4,1.4,-1.4,1.4],(u,v,t,P)=>[.6*(u-u*u*u/3+u*v*v),.6*(u*u-v*v)*(.5+.5*P.a)*(1+.2*Math.sin(t)),.6*(v-v*v*v/3+v*u*u)]],
+   ch:['CHLADNI MEMBRANE',[-1.6,1.6,-1.6,1.6],(u,v,t,P)=>[u,.5*P.a*Math.sin(P.n*u*1.2)*Math.sin((P.n+1)*v*1.2)*Math.cos(t*1.6)+.12*Math.cos(2*u+t),v]],
+   co:['CONIFOLD THROAT',[0,TAU,-1.2,1.5],(u,v,t,P)=>{const r=.12+.5*v*v+.05*P.a*Math.sin(P.n*u+t*2)*Math.abs(v);return[r*Math.cos(u),v*1.5-.2,r*Math.sin(u)];}],
+   ds:['DE SITTER HYPERBOLOID',[0,TAU,-1.3,1.3],(u,v,t,P)=>{const w=Math.cosh(v)*(.8+.1*P.a*Math.sin(t*1.5+P.n*u));return[w*Math.cos(u),Math.sinh(v)*.9,w*Math.sin(u)];}],
+   ms:['MONKEY SADDLE POTENTIAL',[-1.5,1.5,-1.5,1.5],(u,v,t,P)=>[u,.8*(.18*(u*u*u-3*u*v*v)*(.5+P.a)+.1*Math.sin(t*2)*P.a),v]]};
+  function buildSurf(R,id){floor(-2.9);const D=SG[id.slice(3)],bad=R.checks.some(c=>!c.pass),gsn=sp?sp.gsn:.5,nn=clamp(R.het?R.gens:3,2,6),N=140,[u0,u1,v0,v1]=D[1];
+    [[-3.3,{a:.45,n:3},'#ffd24a','OURS'],[3.3,{a:gsn,n:nn},bad?'#ff3a1a':'#ff6a1a','THIS']].forEach(([x0,P,hex,tag])=>{
+      const NV=(N+1)*(N+1),pos=new Float32Array(NV*3),col=new Float32Array(NV*3),tri=[],wr=[],c1=new THREE.Color(hex),c0=new THREE.Color('#2a0600'),m=new THREE.Color();
+      const fill=t=>{for(let i=0;i<=N;i++)for(let j=0;j<=N;j++){const p=D[2](u0+(u1-u0)*i/N,v0+(v1-v0)*j/N,t,P),q=(i*(N+1)+j)*3;pos[q]=p[0]+x0;pos[q+1]=p[1];pos[q+2]=p[2];}};fill(0);
+      for(let i=0;i<=N;i++)for(let j=0;j<=N;j++){const q=i*(N+1)+j,tt=clamp((pos[q*3+1]+1.6)/3.2,0,1);m.copy(c0).lerp(c1,.25+.75*tt);col[q*3]=m.r;col[q*3+1]=m.g;col[q*3+2]=m.b;
+        if(i<N&&j<N)tri.push(q,q+1,q+N+1,q+1,q+N+2,q+N+1);if(i<N)wr.push(q,q+N+1);if(j<N)wr.push(q,q+1);}
+      const pa=new THREE.BufferAttribute(pos,3).setUsage(THREE.DynamicDrawUsage),ca=new THREE.BufferAttribute(col,3),g1=new THREE.BufferGeometry(),g2=new THREE.BufferGeometry();
+      g1.setAttribute('position',pa);g1.setAttribute('color',ca);g1.setIndex(tri);g2.setAttribute('position',pa);g2.setAttribute('color',ca);g2.setIndex(wr);
+      const a=add(new THREE.Mesh(g1,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.1,side:THREE.DoubleSide,blending:ADDB,depthWrite:false})));
+      const b=add(new THREE.LineSegments(g2,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.5,blending:ADDB,depthWrite:false})));a.frustumCulled=b.frustumCulled=false;
+      let fr=0;anim.push(tt=>{if(fr++&1)return;fill(tt);pa.needsUpdate=true;});
+      const lb=label(D[0]+' \u00b7 '+tag,tag==='THIS'&&bad?'#ff6a4a':'#ffe2c4',.8);lb.position.set(x0,2.6,0);add(lb);});}
   function buildVs(R){floor(-2.9);const bad=R.checks.some(c=>!c.pass);
     const T1=torus(-2.5,{k:3,kv:3,s:1,gsn:.45,bad:false}),T2=torus(2.5,sp);anim.push(tt=>{T1(tt);T2(tt);});
     tag('OURS (reference: 3 families, α≈1/25)','#ffe2c4',-2.5,2.3,0,.75);tag('THIS UNIVERSE'+(bad?' ✘':''),bad?'#ff4422':'#ffcc44',2.5,2.3,0,.8);
@@ -8835,9 +8946,15 @@ const U3=(function(){
     else c.innerHTML='<span class="tg ex">EXACT</span> T-duality: a circle of radius R = 10<sup>'+fnum(U.lt,2)+'</sup> ℓ<sub>s</sub> is physically identical to one of radius α′/R = '+fnum(Math.pow(10,-U.lt),3)+' ℓ<sub>s</sub>, with momentum n and winding w swapped (E² = n²/R² + w²R²/α′² + …). Self-check: '+(tdualCheck(Math.pow(10,U.lt),8).ok?'spectra match ✔':'MISMATCH ✘')+'. Drag the torus-radius slider to move through the self-dual point.';
     return true;}
   window.__u3r=()=>{if(view==='atlas'||view==='mount'||view==='neb'||view==='orbs')rebuild();};
-  function rebuild(){if(!r||!lastR)return;clear();const R=lastR;rad=({versus:13,hier:11.5,fam:10,vac:10,run:12,hodge:10.5,land:11,throat:12.5,fate:11,tdual:12,pcmp:18,atlas:11,mount:12,neb:12,orbs:12})[view]||10;
-    if(view==='space')buildSpace();else if(view==='towers')buildTowers(R);else if(view==='hier')buildHier(R);else if(view==='fam')buildFam(R);else if(view==='versus')buildVs(R);else if(view==='vac')buildVac(R);else if(view==='run')buildRun(R);else if(view==='hodge')buildHodge(R);else if(view==='land')buildLand(R);else if(view==='throat')buildThroat(R);else if(view==='fate')buildFate(R);else if(view==='tdual')buildTdual(R);else if(view==='neb')buildNeb(R);else if(view==='orbs')buildOrbs(R);else if(view==='atlas')buildAtlas(R);else if(view==='mount')buildMount(R);else if(view==='pcmp')buildPcmp(R);else{buildFlux();updFlux(R);}if(view!=='neb'&&view!=='orbs')ambient(R);cap();}
+  function rebuild(){if(!r||!lastR)return;clear();const R=lastR;rad=({sg_sph:12,sg_tw:12,sg_kl:12,sg_ps:12,sg_hc:12,sg_en:12,sg_ch:12,sg_co:12,sg_ds:12,sg_ms:12,pot:12,knt:12,cy:12,str:12,kkh:12.5,versus:13,hier:11.5,fam:10,vac:10,run:12,hodge:10.5,land:11,throat:12.5,fate:11,tdual:12,pcmp:18,atlas:11,mount:12,neb:12,orbs:12})[view]||10;
+    if(view==='space')buildSpace();else if(view==='towers')buildTowers(R);else if(view==='hier')buildHier(R);else if(view==='fam')buildFam(R);else if(view==='versus')buildVs(R);else if(view==='vac')buildVac(R);else if(view==='run')buildRun(R);else if(view==='hodge')buildHodge(R);else if(view==='land')buildLand(R);else if(view==='throat')buildThroat(R);else if(view==='fate')buildFate(R);else if(view==='tdual')buildTdual(R);else if(view==='neb')buildNeb(R);else if(view==='orbs')buildOrbs(R);else if(view==='atlas')buildAtlas(R);else if(view==='mount')buildMount(R);else if(view==='cy')buildCY(R);else if(view==='str')buildStr(R);else if(view.startsWith('sg_'))buildSurf(R,view);else if(view==='pot')buildPot(R);else if(view==='knt')buildKnot(R);else if(view==='kkh')buildKK(R);else if(view==='pcmp')buildPcmp(R);else{buildFlux();updFlux(R);}if(view!=='neb'&&view!=='orbs')ambient(R);cap();}
   function cap(){const c=$('u3-cap');if(!c||!lastR)return;const R=lastR,M=R.M,v=R.val,gs=Math.pow(10,U.lg),Rm=HC/v.Mkk;
+    if(view.startsWith('sg_')){c.innerHTML='<span class="tg es">SCHEMATIC</span> '+SG[view.slice(3)][0]+': a classic 140\u00d7140 parametric surface used as a visual stand-in, not the compactification itself. Ours (left) vs this universe (right): g<sub>s</sub> = '+fnum(gs,3)+' sets the animation amplitude, family count '+(R.het?R.gens:'(needs brane data, 3 shown)')+' sets the mode number.';return;}
+    if(view==='pot'){c.innerHTML='<span class="tg es">SCHEMATIC</span> Toy moduli potential: valleys are vacua, glowing probes roll into them. Higher g<sub>s</sub> makes this universe\u2019s terrain more rugged (g<sub>s</sub> = '+fnum(gs,3)+'). The shape is illustrative, not a computed flux potential.';return;}
+    if(view==='knt'){c.innerHTML='<span class="tg es">SCHEMATIC</span> One winding number per family: ours is the (2,3) trefoil for 3 families, this universe is (2,'+clamp(R.het?R.gens:3,3,11)+')'+(R.het?'':' (family count needs brane data, so 3 is shown)')+'. Glowing probes travel along the knot. A visual metaphor, not topology of the compactification.';return;}
+    if(view==='str'){c.innerHTML='<span class="tg es">SCHEMATIC</span> Closed strings vibrate; neighbouring loops <i>interact</i> (bright links and flashes) more strongly when g<sub>s</sub> is larger: here g<sub>s</sub> = '+fnum(gs,3)+'. One loop per family ('+(R.het?R.gens+(R.gens>10?', first 10 shown':''):'family count needs brane data')+') vs our 3. Not a calculation of amplitudes.';return;}
+    if(view==='kkh'){c.innerHTML='<span class="tg tl">TREE-LEVEL</span> Each dot is a Kaluza-Klein level n\u00b7M<sub>KK</sub> on a log\u2081\u2080(GeV) axis (n = 1\u201324). Dark red dots lie above M<sub>s</sub> and are not valid string-regime states. Rings: M<sub>s</sub>, M<sub>GUT</sub> \u2248 2\u00d710\u00b9\u2076, M<sub>Pl</sub>. Ours uses M<sub>KK</sub> = M<sub>GUT</sub> and M<sub>s</sub> = M<sub>Pl</sub>/5 (a = 1/25 link); this: M<sub>KK</sub> = '+fnum(v.Mkk,3)+' GeV.';return;}
+    if(view==='cy'){c.innerHTML='<span class="tg es">SCHEMATIC</span> Real Calabi-Yau 3-folds cannot be drawn. Both shapes are the same <i>Fermat cross-section</i> z<sub>1</sub><sup>n</sup>+z<sub>2</sub><sup>n</sup>=1 (Hanson projection), a visual stand-in. Left: reference for ours (3 families, a\u22481/25). Right: this universe, size \u221d R<sup>0.45</sup>, R = '+fnum(v.Rad,3)+' l<sub>s</sub>, '+(R.het?'N = '+R.gens+' families':'family count needs brane data')+(sp&&sp.bad?' \u00b7 <b style="color:#ff6a4a">validity failed</b> (drawn red)':'')+'. Drag to orbit.';return;}
     if(capNew(c,R,M,v,gs,Rm))return;
     if(view==='space')c.innerHTML='<span class="tg es">SCHEMATIC</span> Real Calabi–Yau 3-folds cannot be drawn in 3D. Bulges = h¹¹ = '+M.h11+' (capped at 12) · ripples = h²¹ = '+M.h21+' (log scale) · size ∝ log R, R = '+fnum(v.Rad,3)+' ℓ<sub>s</sub> · colour/wobble = g<sub>s</sub> = '+fnum(gs,3)+(sp&&sp.bad?' · <span class="bad">red: a validity check failed</span>':'')+'. The floor is our spacetime, not to scale: the real R is ≈ '+sci(fnum(Rm,3))+' m.';
     else if(view==='towers')c.innerHTML='<span class="tg ex">EXACT</span> Mass scales on a log₁₀(GeV) axis, tower height = log₁₀(mass). Cream = measured or observed reference (electroweak, LHC reach, SUSY-GUT scale); amber/orange = this universe; red ✘ = scale invalid because a check failed. Move g<sub>s</sub> and V and watch M<sub>s</sub> and M<sub>KK</sub> slide.';
